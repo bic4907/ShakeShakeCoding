@@ -11,8 +11,9 @@
 |
 */
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use function foo\func;
+
 
 Route::get('/login', function (){
     return view('/auth/login');
@@ -21,9 +22,17 @@ Route::get('/login', function (){
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
 Auth::routes();
+
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
+
+
+Route::group(['prefix' => 'question'],function(){
+    Route::get('/list', 'Question\ListController@showList')->name('question.list');
+    Route::get('/{question_num}', 'Question\ViewerController@show')->name('question.view');
+});
+
 
 Route::group(['prefix' => 'mypage'], function() {
     Route::get('/', 'Auth\MypageController@show')->name('mypage');
