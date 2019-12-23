@@ -11,12 +11,19 @@
 |
 */
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('problem.solve');
-});
+Route::get('/login', function (){
+    return view('/auth/login');
+})->name('login');
 
+Route::get('logout', 'Auth\LoginController@logout')->name('logout');
+
+Auth::routes();
+Route::get('/', function () {
+    return view('welcome');
+})->name('home');
 
 Route::group(['prefix' => 'mypage'], function() {
     Route::get('/', 'Auth\MypageController@show')->name('mypage');
