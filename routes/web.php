@@ -11,6 +11,15 @@
 |
 */
 
+use Illuminate\Support\Facades\Route;
+
 Route::get('/', function () {
     return view('problem.solve');
+});
+
+
+Route::group(['prefix' => 'mypage'], function() {
+    Route::get('/', function () { return view('auth/mypage'); });
+    Route::get('/question', 'MyPage\ProfessorController@showList')->name('mypage.question.list');
+    Route::get('/submission', 'MyPage\StudentController@showList')->name('mypage.submission.list');
 });
