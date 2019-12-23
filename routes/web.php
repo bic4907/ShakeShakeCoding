@@ -14,7 +14,7 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('problem.solve');
 });
 
 Route::get('/creat', function(){return view('problem/creat');});
