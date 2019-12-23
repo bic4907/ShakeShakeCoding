@@ -67,6 +67,16 @@
                             <small class="form-text text-muted">이메일을 입력해주세요</small>
                         </div>
 
+                        <div class="form-inline">
+                            <div class="custom-control custom-radio">
+                                {{ Form::radio('usertype', App\Enums\UserType::Professor, true, array('id'=>App\Enums\UserType::Professor, 'class'=>'custom-control-input')) }}
+                                <label class="custom-control-label" for="{{\App\Enums\UserType::Professor}}">교수</label>
+                            </div>
+                            <div class="custom-control custom-radio ml-5">
+                                {{ Form::radio('usertype', App\Enums\UserType::Student, false, array('id'=>App\Enums\UserType::Student, 'class'=>'custom-control-input'))}}
+                                <label class="custom-control-label" for="{{\App\Enums\UserType::Student}}">학생</label>
+                            </div>
+                        </div>
 
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary btn-lg btn-block">
