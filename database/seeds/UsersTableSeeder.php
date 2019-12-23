@@ -15,7 +15,7 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        $users = factory(User::class, 10)->create();
+        $users = factory(User::class, 40)->create();
 
         foreach($users as $user){
             if($user->usertype == "Professor"){
@@ -24,7 +24,7 @@ class UsersTableSeeder extends Seeder
                 $students = User::where('usertype',"Student")->get();
                 foreach($questions as $question){
                     foreach($students as $student){
-                        factory(Submission::class, 10)->create(['question_id'=>$question->id, 'student_id'=> $student->id]);
+                        factory(Submission::class, 1)->create(['question_id'=>$question->id, 'student_id'=> $student->id]);
                     }
                 }
             }
