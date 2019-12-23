@@ -1,0 +1,7 @@
+
+html, body { margin:0; padding:0; }
+
+#solve-app #blueprint {
+    background-color: #aeaeae;
+    height: 500px;
+}
