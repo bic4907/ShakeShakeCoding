@@ -1,8 +1,10 @@
 <?php
 
 use App\Enums\UserType;
+use App\Submission;
 use App\User;
 use Illuminate\Database\Seeder;
+use App\Question;
 
 class UsersTableSeeder extends Seeder
 {
@@ -13,6 +15,20 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(User::class, 10)->create();
+        $users = factory(User::class, 10)->create();
+
+        foreach($users as $user){
+            if($user->usertype == "Professor"){
+                $questions = factory(Question::class, 1)->create(['professor_id'=>$user->id]);
+
+                $students = User::where('usertype',"Student")->get();
+                foreach($questions as $question){
+                    foreach($students as $student){
+                        factory(Submission::class, 10)->create(['question_id'=>$question->id, 'student_id'=> $student->id]);
+                    }
+                }
+            }
+        }
+
     }
 }
