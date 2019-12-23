@@ -29,7 +29,7 @@
 
             $.ajax({
                 type : "POST",
-                url : "/creat",
+                url : "",
                 dataType : 'json',
                 contentType : 'application/json',
                 data : param,

@@ -17,4 +17,5 @@ Route::get('/', function () {
     return view('problem.solve');
 });
 
-Route::get('/creat', function(){return view('problem/creat');});
+Route::get('/create', 'Problem\CreateController@showAnswer');
+Route::post('/create', 'Problem\CreateController@addBlinkBlock');
