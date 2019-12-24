@@ -18,6 +18,7 @@ class FileTransformController extends Controller
         $user = Auth::user();
         $submissionFile->uuid = Uuid::uuid4();
         $submissionFile->user_id = $user->user_id;
+        $submissionFile->question_id = $request->question_id;
 
         $path = 'resources/json_test.json'; // json 갖고오기
         $arrays = json_decode(file_get_contents(base_path($path)), true);
