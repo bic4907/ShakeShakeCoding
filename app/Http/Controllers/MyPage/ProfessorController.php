@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Question;
 use App\Submission;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use RegisterType;
 
@@ -18,7 +21,7 @@ class ProfessorController extends Controller
 
         $user = Auth::user();
         //->where('reg_state','=', RegisterType::Registered) 나중에 추가
-        $questions = Question::where('professor_id','=',$user->id)->orderBy('id','desc')->paginate(10);
+        $questions = Question::where('professor_id','=',$user->id)->get();
         $questionListData = array();
 
         foreach($questions as $question) {
@@ -30,15 +33,24 @@ class ProfessorController extends Controller
             else $correctRate = 0;
             $studentCount = Submission::where('question_id','=',$question->id)->distinct('student_id')->count();
 
-            $questionListData[] = array(
+            $questionArray[] = array(
                 'questionId' => $questionId,
                 'correctRate' => $correctRate,
                 'studentCount' => $studentCount
             );
+
+            $questionListData = collect($questionArray);
         }
 
-        dd($questionListData);
+        $questionListData = $this->paginate($questionListData);
 
         return view('auth.professor', ['questionListData' => $questionListData]);
+    }
+
+    public function paginate($items, $perPage = 5, $page = null, $options = [])
+    {
+        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+        $items = $items instanceof Collection ? $items : Collection::make($items);
+        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
     }
 }
