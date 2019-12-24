@@ -5,6 +5,7 @@
  */
 
 require('./bootstrap');
+require('./util')
 
 window.Vue = require('vue');
 
@@ -21,6 +22,7 @@ window.Vue = require('vue');
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('problem-solve-component', require('./components/ProblemSolveComponent.vue').default);
+Vue.component('block-display-component', require('./components/BlockDisplayComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

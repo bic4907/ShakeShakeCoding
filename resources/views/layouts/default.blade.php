@@ -13,10 +13,12 @@
     <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
+    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+
     {{ Html::style('css/style.css') }}
 
-    {{ Html::style('css/amaran.min.css') }}
-    {{ Html::style('css/animate.min.css') }}
+    <!--{{ Html::style('css/amaran.min.css') }}-->
+    <!--{{ Html::style('css/animate.min.css') }}-->
 
     <title>
         @if (View::hasSection('title'))
@@ -38,13 +40,8 @@
 
         </footer>
 
-
-
-
-
-
-
     </div>
+    <script src="{{ mix('js/util.js') }}"></script>
     <script src="{{ mix('js/app.js') }}"></script>
 </body>
 </html>
