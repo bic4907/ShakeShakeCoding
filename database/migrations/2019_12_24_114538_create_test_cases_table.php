@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSubmissionFilesTable extends Migration
+class CreateTestCasesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,12 @@ class CreateSubmissionFilesTable extends Migration
      */
     public function up()
     {
-        Schema::create('submission_files', function (Blueprint $table) {
+        Schema::create('test_cases', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->uuid('uuid')->unique();
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedBigInteger('question_id');
             $table->foreign('question_id')->references('id')->on('questions');
+            $table->string('input');
+            $table->string('output');
             $table->timestamps();
         });
     }
@@ -31,6 +30,6 @@ class CreateSubmissionFilesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('submission_files');
+        Schema::dropIfExists('test_cases');
     }
 }
