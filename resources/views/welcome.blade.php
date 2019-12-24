@@ -1,101 +1,50 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('layouts.app')
 
-        <title>Laravel</title>
+@section('header')
+    <div id="sliderWrapper">
+        <div class="black-filter">
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
-
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Nunito', sans-serif;
-                font-weight: 200;
-                height: 100vh;
-                margin: 0;
-            }
-
-            .full-height {
-                height: 100vh;
-            }
-
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
-
-            .position-ref {
-                position: relative;
-            }
-
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 13px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/') }}">Home</a>
-                        <a href="{{ route('logout') }}">Logout</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
-                        @endif
-                    @endauth
-                </div>
-            @endif
-
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel
-                </div>
-
-                <div class="links">
-                    <a href="https://laravel.com/docs">Docs</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://blog.laravel.com">Blog</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://vapor.laravel.com">Vapor</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
-            </div>
         </div>
-    </body>
-</html>
+        <div id="slider">
+            <div class="item" style="background-image:url( {{ asset('/img/slide_03.jpg') }});"></div>
+            <div class="item" style="background-image:url( {{ asset('/img/slide_04.jpg') }});"></div>
+        </div>
+
+    </div>
+    <script>
+        $('header #slider').bxSlider({
+            'mode':'fade',
+            'auto':true,
+            'controls':false,
+            'pager':false,
+            'randomStart':true,
+            'wrapperClass':'headerSliderWrapper'
+        });
+    </script>
+@endsection
+@section('content')
+    <div id="header-band" class="w100 row no-gutters">
+        <div class="col-4"></div>
+        <div class="col"></div>
+    </div>
+
+    <div id="home-bookpeople" class="container">
+        <div class="py-5 mt-5 display-4">
+            초보 프로그래머를 위한<br>
+            <b>교육용 코딩도우미 플랫폼</b>
+        </div>
+        <div class="mt-3 lead">
+            누구든지 코딩할 수 있습니다.
+        </div>
+        <div class="mt-5">
+            @auth
+                @if(Auth::user()->usertype == App\Enums\UserType::Professor)
+{{--            <a href="{{route('question.add')}}"><button type="button" class="btn btn-outline-secondary">대회 주최하기</button></a>--}}
+                @else
+            <a href="{{route('question.list')}}"><button type="button" class="btn btn-secondary">대회 참가하기</button></a>
+                    @endif
+                @endauth
+        </div>
+    </div>
+
+@endsection

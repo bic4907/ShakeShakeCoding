@@ -14,9 +14,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
 
-    {{ Html::style('css/style.css') }}
 
-    {{ Html::style('css/amaran.min.css') }}
     {{ Html::style('css/animate.min.css') }}
 
     <title>
@@ -49,7 +47,6 @@
 
     {{ Html::script('js/app.js') }}
     <!--{{ Html::script('js/loading.js') }}-->
-    {{ Html::script('js/jquery.amaran.js') }}
 
     <script>
         $(function () {
