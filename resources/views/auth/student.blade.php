@@ -1,7 +1,7 @@
 @extends('layouts.default')
 
 @section('title')
-    List
+    Student My List
 @endsection
 
 @section('header')
