@@ -3,13 +3,21 @@
 namespace App\Http\Controllers\Submission;
 
 use App\Http\Controllers\Controller;
+use App\SubmissionFile;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Ramsey\Uuid\Uuid;
 
 class FileTransformController extends Controller
 {
     public function fileTransform(Request $request)
     {
+        $submissionFile = new SubmissionFile();
+
+        $user = Auth::user();
+        $submissionFile->uuid = Uuid::uuid4();
+        $submissionFile->user_id = $user->user_id;
 
         $path = 'resources/json_test.json'; // json 갖고오기
         $arrays = json_decode(file_get_contents(base_path($path)), true);
@@ -51,7 +59,10 @@ class FileTransformController extends Controller
             } // for 문일때, check 후 해당 depth 에 pass 추가
         }
 
-        Storage::disk('local')->put('test.py' , $contents); // py 파일 생성
+
+        Storage::disk('local')->put($submissionFile->uuid.'.py' , $contents); // py 파일 생성
+
+        $submissionFile->save();
 
         // dd($contents);
 
