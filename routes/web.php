@@ -17,5 +17,5 @@ Route::get('/', function () {
     return view('problem.solve');
 });
 
-Route::get('/create', 'Problem\CreateController@showAnswer');
-Route::post('/create', 'Problem\CreateController@addBlinkBlock');
+Route::get('/create/{problem_num}', 'Problem\CreateController@showAnswer')->name('Answer');
+Route::post('/create/{problem_num}', 'Problem\CreateController@addBlinkBlock')->name('Blink_Block');
