@@ -17,11 +17,10 @@ class StudentController extends Controller
     public function showList(Request $request)
     {
         //find Question List by Prof
-        //pagenation
 
         $user = Auth::user();
         //->where('reg_state','=', RegisterType::Registered)나중에 추가
-        $submissions = Submission::where('student_id','=',$user->id)->get();
+        $submissions = Submission::where('student_id','=',$user->id)->orderBy('id','desc')->get();
         $submissionListData = array();
 
         foreach($submissions as $submission) {
@@ -41,7 +40,7 @@ class StudentController extends Controller
         return view('auth.student', ['submissionListData' => $submissionListData]);
     }
 
-    public function paginate($items, $perPage = 5, $page = null, $options = [])
+    public function paginate($items, $perPage = 10, $page = null, $options = [])
     {
         $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
         $items = $items instanceof Collection ? $items : Collection::make($items);

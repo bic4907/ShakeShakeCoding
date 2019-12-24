@@ -17,11 +17,10 @@ class ProfessorController extends Controller
     public function showList(Request $request)
     {
         //find Question List by Prof
-        //pagenation
 
         $user = Auth::user();
         //->where('reg_state','=', RegisterType::Registered) 나중에 추가
-        $questions = Question::where('professor_id','=',$user->id)->get();
+        $questions = Question::where('professor_id','=',$user->id)->orderBy('id','desc')->get();
         $questionListData = array();
 
         foreach($questions as $question) {
@@ -47,7 +46,7 @@ class ProfessorController extends Controller
         return view('auth.professor', ['questionListData' => $questionListData]);
     }
 
-    public function paginate($items, $perPage = 5, $page = null, $options = [])
+    public function paginate($items, $perPage = 10, $page = null, $options = [])
     {
         $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
         $items = $items instanceof Collection ? $items : Collection::make($items);
