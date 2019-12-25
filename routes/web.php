@@ -11,6 +11,4 @@
 |
 */
 
-Route::get('/', function () {
-    return view('problem.solve');
-});
+Route::get('/solve/{problem_num}', 'Problem\SolveController@show');
