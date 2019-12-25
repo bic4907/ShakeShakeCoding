@@ -1,0 +1,41 @@
+.problem-solve { padding: 2em; }
+.problem-solve .inven-component { overflow: hidden }
+.problem-solve .block-display li,
+.problem-solve .inven-component li {
+    margin:30px 0;
+    white-space: nowrap;
+}
+.problem-solve .inven-component {
+    background-color:#D2B48C;
+    border:3px solid #ad9473;
+    border-radius: 10px;
+    -webkit-box-shadow: 0px 0px 21px -1px rgba(0,0,0,0.3);
+    -moz-box-shadow: 0px 0px 21px -1px rgba(0,0,0,0.3);
+    box-shadow: 0px 0px 21px -1px rgba(0,0,0,0.3);
+}
+.problem-solve .block-item {
+    display: inline-block;
+}
+.problem-solve .block-item .block-inline {
+    background: white;
+    margin:0.5em;
+    padding: 1em;
+    display: inline-block;
+    border-radius:1rem;
+    cursor:pointer;
+    -webkit-transition:all 0.3s cubic-bezier(0.05, 0.95, 0.58, 1);
+    -moz-transition:all 0.3s cubic-bezier(0.05, 0.95, 0.58, 1);
+    -o-transition:all 0.3s cubic-bezier(0.05, 0.95, 0.58, 1);
+    transition:all 0.3s cubic-bezier(0.05, 0.95, 0.58, 1);
+}
+.problem-solve .block-item input { margin:0px 10px; }
+.problem-solve .block-item input:hover { transform:scale(1.1); }
+
+.problem-solve .block-item .block-inline:hover,
+.problem-solve .block-item .block-inline:focus{
+    transform:scale(1.1);
+    background: #e8e8e8;
+    -webkit-box-shadow: 0px 0px 21px -1px rgba(0,0,0,0.3);
+    -moz-box-shadow: 0px 0px 21px -1px rgba(0,0,0,0.3);
+    box-shadow: 0px 0px 21px -1px rgba(0,0,0,0.3);
+}
