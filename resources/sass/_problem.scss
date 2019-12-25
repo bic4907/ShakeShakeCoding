@@ -1,17 +1,17 @@
-.problem-solve { padding: 2em; }
-.problem-solve .inven-component { overflow: hidden }
+.problem-solve { width:100%; }
+.problem-solve .inven-component {
+    background-color: #eeeeee;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    height:100%;
+}
 .problem-solve .block-display li,
 .problem-solve .inven-component li {
     margin:30px 0;
     white-space: nowrap;
 }
 .problem-solve .inven-component {
-    background-color:#D2B48C;
-    border:3px solid #ad9473;
-    border-radius: 10px;
-    -webkit-box-shadow: 0px 0px 21px -1px rgba(0,0,0,0.3);
-    -moz-box-shadow: 0px 0px 21px -1px rgba(0,0,0,0.3);
-    box-shadow: 0px 0px 21px -1px rgba(0,0,0,0.3);
+    border-left: 1px solid #e0e0e0;
 }
 .problem-solve .block-item {
     display: inline-block;
@@ -38,4 +38,37 @@
     -webkit-box-shadow: 0px 0px 21px -1px rgba(0,0,0,0.3);
     -moz-box-shadow: 0px 0px 21px -1px rgba(0,0,0,0.3);
     box-shadow: 0px 0px 21px -1px rgba(0,0,0,0.3);
+}
+.problem-solve .resizable-section .list-unstyled {
+    padding: 0 20px;
+}
+.problem-solve .resizable-section {
+    overflow:hidden;
+}
+.problem-solve .resizable-section > .col {
+    height: 100%;
+    overflow-y: scroll;
+}
+
+.problem-solve-nav {
+    background-color:white;
+    height:80px;
+    line-height:80px;
+    border-bottom: 1px solid #e0e0e0;
+}
+.problem-solve-nav .title {
+    font-size:1.6em;
+
+}
+
+.problem-solve .grading-component {
+    width:100%;
+    height:150px;
+    border-top:1px solid #e0e0e0;
+    background-color:white;
+}
+.problem-solve .grading-component .controller  {
+    border-bottom: 1px solid #e0e0e0;
+    height:50px;
+    line-height:50px;
 }

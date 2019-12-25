@@ -2173,6 +2173,65 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/GradingComponent.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/GradingComponent.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "GradingComponent",
+  props: ['blocks'],
+  data: function data() {
+    return {
+      currentMessage: '대기 중',
+      currentResponse: '...'
+    };
+  },
+  methods: {
+    runGrade: function runGrade() {
+      var self = this;
+      console.log('채점 시작');
+      this.currentMessage = '채점 중';
+      console.log(this.blocks);
+      axios.post('/solve/1', {
+        blocks: this.blocks
+      }).then(function (response) {
+        self.currentResponse = response.data;
+        console.log(response);
+      })["catch"](function (error) {
+        console.log('오류가 나면서 완료됨');
+        console.log(error);
+      })["finally"](function () {
+        console.log('채점 완료');
+      });
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/InActiveBlockComponent.vue?vue&type=script&lang=js&":
 /*!*********************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/InActiveBlockComponent.vue?vue&type=script&lang=js& ***!
@@ -2225,6 +2284,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuedraggable__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuedraggable */ "./node_modules/vuedraggable/dist/vuedraggable.common.js");
 /* harmony import */ var vuedraggable__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vuedraggable__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var vue_uuid__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-uuid */ "./node_modules/vue-uuid/dist/vue-uuid.es.js");
+/* harmony import */ var _GradingComponent__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./GradingComponent */ "./resources/js/components/GradingComponent.vue");
 //
 //
 //
@@ -2244,6 +2304,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -2251,6 +2318,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ProblemSolveComponent",
   components: {
+    GradingComponent: _GradingComponent__WEBPACK_IMPORTED_MODULE_4__["default"],
     BlockInventoryComponent: _BlockInventoryComponent__WEBPACK_IMPORTED_MODULE_1__["default"],
     BlockDisplayComponent: _BlockDisplayComponent__WEBPACK_IMPORTED_MODULE_0__["default"],
     draggable: vuedraggable__WEBPACK_IMPORTED_MODULE_2___default.a
@@ -2349,6 +2417,15 @@ __webpack_require__.r(__webpack_exports__);
     }
   }
 });
+
+function resizeSolverComponent() {
+  var $section = $('.resizable-section');
+  var screenH = window.innerHeight;
+  $section.height(screenH - 232);
+}
+
+$(document).ready(resizeSolverComponent);
+$(window).resize(resizeSolverComponent);
 
 /***/ }),
 
@@ -42047,6 +42124,55 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/GradingComponent.vue?vue&type=template&id=c53fe318&scoped=true&":
+/*!*******************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/GradingComponent.vue?vue&type=template&id=c53fe318&scoped=true& ***!
+  \*******************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "grading-component" }, [
+    _c("div", { staticClass: "controller row no-gutters" }, [
+      _c("div", { staticClass: "col-auto" }, [
+        _c("div", { staticClass: "d-inline", on: { click: _vm.runGrade } }, [
+          _c("i", {
+            staticClass: "fas fa-play-circle ml-3 mt-2",
+            staticStyle: {
+              color: "green",
+              "font-size": "2.2em",
+              cursor: "pointer"
+            }
+          })
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-auto" }, [
+        _c("span", { staticClass: "ml-3" }, [
+          _vm._v(_vm._s(_vm.currentMessage))
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "resultDisplay" }, [
+      _vm._v("\n        " + _vm._s(_vm.currentResponse) + "\n    ")
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/InActiveBlockComponent.vue?vue&type=template&id=848ae1f4&scoped=true&":
 /*!*************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/InActiveBlockComponent.vue?vue&type=template&id=848ae1f4&scoped=true& ***!
@@ -42091,8 +42217,8 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container-fluid problem-solve" }, [
-    _c("div", { staticClass: "row" }, [
+  return _c("div", { staticClass: "problem-solve" }, [
+    _c("div", { staticClass: "resizable-section row no-gutters" }, [
       _c(
         "div",
         { staticClass: "col" },
@@ -42116,7 +42242,13 @@ var render = function() {
         ],
         1
       )
-    ])
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      [_c("GradingComponent", { attrs: { blocks: _vm.activeBlock } })],
+      1
+    )
   ])
 }
 var staticRenderFns = []
@@ -57979,6 +58111,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ExampleComponent_vue_vue_type_template_id_299e239e___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ExampleComponent_vue_vue_type_template_id_299e239e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/GradingComponent.vue":
+/*!******************************************************!*\
+  !*** ./resources/js/components/GradingComponent.vue ***!
+  \******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _GradingComponent_vue_vue_type_template_id_c53fe318_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GradingComponent.vue?vue&type=template&id=c53fe318&scoped=true& */ "./resources/js/components/GradingComponent.vue?vue&type=template&id=c53fe318&scoped=true&");
+/* harmony import */ var _GradingComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GradingComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/GradingComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _GradingComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _GradingComponent_vue_vue_type_template_id_c53fe318_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _GradingComponent_vue_vue_type_template_id_c53fe318_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "c53fe318",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/GradingComponent.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/GradingComponent.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************!*\
+  !*** ./resources/js/components/GradingComponent.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_GradingComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./GradingComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/GradingComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_GradingComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/GradingComponent.vue?vue&type=template&id=c53fe318&scoped=true&":
+/*!*************************************************************************************************!*\
+  !*** ./resources/js/components/GradingComponent.vue?vue&type=template&id=c53fe318&scoped=true& ***!
+  \*************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GradingComponent_vue_vue_type_template_id_c53fe318_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./GradingComponent.vue?vue&type=template&id=c53fe318&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/GradingComponent.vue?vue&type=template&id=c53fe318&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GradingComponent_vue_vue_type_template_id_c53fe318_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GradingComponent_vue_vue_type_template_id_c53fe318_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

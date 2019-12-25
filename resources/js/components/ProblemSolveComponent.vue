@@ -1,6 +1,6 @@
 <template>
-    <div class="container-fluid problem-solve">
-        <div class="row">
+    <div class="problem-solve">
+        <div class="resizable-section row no-gutters">
             <div class="col">
                 <BlockDisplayComponent
                     v-bind:blocks="activeBlock"
@@ -14,7 +14,13 @@
                 ></BlockInventoryComponent>
             </div>
         </div>
+        <div>
+            <GradingComponent
+                v-bind:blocks="activeBlock"
+            ></GradingComponent>
+        </div>
     </div>
+
 </template>
 
 <script>
@@ -22,10 +28,11 @@
     import BlockInventoryComponent from "./BlockInventoryComponent";
     import draggable from 'vuedraggable';
     import { uuid } from 'vue-uuid';
+    import GradingComponent from "./GradingComponent";
 
     export default {
         name: "ProblemSolveComponent",
-        components: {BlockInventoryComponent, BlockDisplayComponent, draggable},
+        components: {GradingComponent, BlockInventoryComponent, BlockDisplayComponent, draggable},
         data: function() {
             return {
                 message: 'hr457d67',
@@ -68,6 +75,15 @@
             }
         }
     }
+
+    function resizeSolverComponent() {
+        var $section = $('.resizable-section');
+        var screenH = window.innerHeight;
+
+        $section.height(screenH - 232)
+    }
+    $(document).ready(resizeSolverComponent)
+    $(window).resize(resizeSolverComponent)
 </script>
 
 <style scoped>
