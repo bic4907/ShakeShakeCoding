@@ -43,4 +43,4 @@ Route::group(['prefix' => 'mypage'], function() {
 Route::get('/create/{problem_num}', 'Problem\CreateController@showAnswer')->name('Answer');
 Route::post('/create/{problem_num}', 'Problem\CreateController@addBlinkBlock')->name('Blink_Block');
 
-Route::get('/solve/{problem_num}', 'Problem\SolveController@show');
+Route::get('/solve/{question_num}', 'Question\SolveController@show');
