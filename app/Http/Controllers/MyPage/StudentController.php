@@ -5,6 +5,7 @@ namespace App\Http\Controllers\MyPage;
 use App\Http\Controllers\Controller;
 use App\Question;
 use App\Submission;
+use App\TestCase;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;

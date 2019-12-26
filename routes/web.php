@@ -43,5 +43,8 @@ Route::group(['prefix' => 'mypage'], function() {
 Route::get('/create/{problem_num}', 'Problem\CreateController@showAnswer')->name('Answer');
 Route::post('/create/{problem_num}', 'Problem\CreateController@addBlinkBlock')->name('Blink_Block');
 
+Route::get('/createaa/{problem_num}', 'Problem\CreateController@inputAnswer')->name('input.answer.view');
+Route::post('/createaa/{problem_num}', 'Problem\CreateController@inputAnswer')->name('input.answer.post');
+
 Route::get('/solve/{question_num}', 'Question\SolveController@show');
 Route::post('/solve/{question_num}', 'Question\SolveController@grade');

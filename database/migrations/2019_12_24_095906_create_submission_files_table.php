@@ -20,6 +20,8 @@ class CreateSubmissionFilesTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedBigInteger('question_id');
             $table->foreign('question_id')->references('id')->on('questions');
+            $table->unsignedBigInteger('submission_id');
+            $table->foreign('submission_id')->references('id')->on('submissions');
             $table->timestamps();
         });
     }
