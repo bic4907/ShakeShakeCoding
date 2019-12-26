@@ -3,8 +3,9 @@
         <div class="col d-inline" v-if="block.type == 'user'" v-html="">{{ block.lineNumber }}</div>
         <div class="col d-inline block-inline" v-html="renderdContent" v-bind:style="renderdStyleSecond" :class="{'warning':block.warnFlag}"></div>
 
-        <i class="fas fa-exclamation-triangle" v-if="block.warnFlag" v-b-tooltip.hover :title="block.warnMsg" style="cursor:pointer"></i>
-
+        <div :class="{'d-none':!block.warnFlag}" v-b-tooltip.hover :title="block.warnMsg" style="cursor:pointer">
+            <i class="fas fa-exclamation-triangle" ></i>
+        </div>
     </div>
 </template>
 
