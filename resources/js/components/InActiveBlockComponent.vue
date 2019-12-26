@@ -1,6 +1,9 @@
 <template>
     <div class="block-item row d-inline">
         <div class="col d-inline block-inline" v-html="renderdContent"></div>
+        <div :class="{'d-none':!block.forFlag}" v-b-tooltip.hover :title="block.forMsg">
+            <i class="fas fa-question-circle-o" ></i>
+        </div>
     </div>
 </template>
 

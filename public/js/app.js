@@ -1849,6 +1849,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ActiveBlockComponent",
   props: ['block'],
@@ -2301,6 +2303,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "InActiveBlockComponent",
   props: ['block'],
@@ -2438,6 +2443,7 @@ __webpack_require__.r(__webpack_exports__);
         self.activeBlock = tmpActive;
         self.inactiveBlock = tmpInactive;
         self.addSubBlocks();
+        self.tooltip();
         self.$forceUpdate();
       })["catch"](function (error) {
         console.log(error);
@@ -2477,6 +2483,17 @@ __webpack_require__.r(__webpack_exports__);
         } else {
           e.warnFlag = true;
           e.warnMsg = debugInfo['message'];
+        }
+      });
+    },
+    tooltip: function tooltip() {
+      $.each(this.activeBlock, function (i, e) {
+        if (e.content.startsWith('for ')) {
+          e.forFlag = true;
+          e.forMsg = "for i in range(a,b): (a부터 b까지 i에 대입하며 반복)";
+        } else {
+          e.forFlag = false;
+          e.forMsg = null;
         }
       });
     },
@@ -42073,6 +42090,22 @@ var render = function() {
               modifiers: { hover: true }
             }
           ],
+          class: { "d-none": !_vm.block.forFlag },
+          attrs: { title: _vm.block.forMsg }
+        },
+        [_c("i", { staticClass: "fas fa-question-circle-o" })]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          directives: [
+            {
+              name: "b-tooltip",
+              rawName: "v-b-tooltip.hover",
+              modifiers: { hover: true }
+            }
+          ],
           class: { "d-none": !_vm.block.warnFlag },
           staticStyle: { cursor: "pointer" },
           attrs: { title: _vm.block.warnMsg }
@@ -42334,7 +42367,23 @@ var render = function() {
     _c("div", {
       staticClass: "col d-inline block-inline",
       domProps: { innerHTML: _vm._s(_vm.renderdContent) }
-    })
+    }),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        directives: [
+          {
+            name: "b-tooltip",
+            rawName: "v-b-tooltip.hover",
+            modifiers: { hover: true }
+          }
+        ],
+        class: { "d-none": !_vm.block.forFlag },
+        attrs: { title: _vm.block.forMsg }
+      },
+      [_c("i", { staticClass: "fas fa-question-circle-o" })]
+    )
   ])
 }
 var staticRenderFns = []

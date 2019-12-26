@@ -2,7 +2,9 @@
     <div class="block-item row d-inline" v-bind:style="renderdStyleFirst">
         <div class="col d-inline" v-if="block.type == 'user'" v-html="">{{ block.lineNumber }}</div>
         <div class="col d-inline block-inline" v-html="renderdContent" v-bind:style="renderdStyleSecond" :class="{'warning':block.warnFlag}"></div>
-
+        <div :class="{'d-none':!block.forFlag}" v-b-tooltip.hover :title="block.forMsg">
+            <i class="fas fa-question-circle-o" ></i>
+        </div>
         <div :class="{'d-none':!block.warnFlag}" v-b-tooltip.hover :title="block.warnMsg" style="cursor:pointer">
             <i class="fas fa-exclamation-triangle" ></i>
         </div>
