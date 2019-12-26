@@ -25,7 +25,7 @@
                         <small class="font-italic">@ {{ $question->created_at }}</small>
                     </div>
 
-                    <small>Written by {{$question->name}}</small>
+                    <small>{{$question->name}} 교수님의 과제</small>
                 </a>
             @endforeach
         </div>
