@@ -1848,6 +1848,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ActiveBlockComponent",
   props: ['block'],
@@ -42062,20 +42063,22 @@ var render = function() {
         domProps: { innerHTML: _vm._s(_vm.renderdContent) }
       }),
       _vm._v(" "),
-      _vm.block.warnFlag
-        ? _c("i", {
-            directives: [
-              {
-                name: "b-tooltip",
-                rawName: "v-b-tooltip.hover",
-                modifiers: { hover: true }
-              }
-            ],
-            staticClass: "fas fa-exclamation-triangle",
-            staticStyle: { cursor: "pointer" },
-            attrs: { title: _vm.block.warnMsg }
-          })
-        : _vm._e()
+      _c(
+        "div",
+        {
+          directives: [
+            {
+              name: "b-tooltip",
+              rawName: "v-b-tooltip.hover",
+              modifiers: { hover: true }
+            }
+          ],
+          class: { "d-none": !_vm.block.warnFlag },
+          staticStyle: { cursor: "pointer" },
+          attrs: { title: _vm.block.warnMsg }
+        },
+        [_c("i", { staticClass: "fas fa-exclamation-triangle" })]
+      )
     ]
   )
 }
