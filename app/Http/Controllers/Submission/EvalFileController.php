@@ -8,6 +8,7 @@ use App\SubmissionFile;
 use App\TestCase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
@@ -60,7 +61,7 @@ class EvalFileController extends Controller
 
         foreach($testCases as $testCase)
         {
-            $command = "python ".$filepath.$submissionFile->uuid.'.py';
+            $command = "python3 ".$filepath.$submissionFile->uuid.'.py';
             $process = new Process($command);
             $process->setInput($testCase->input);
             $process->run();
@@ -72,17 +73,18 @@ class EvalFileController extends Controller
                 return $errorMsg;
             }
 
-            if($process->getOutput() != $testCase->output)
+            $testCaseOutput = str_replace( "\\r", "", $testCase->output);
+
+            if(trim($process->getOutput()) != trim($testCaseOutput))
             {
                 $submission->isCorrect = 0;
                 $submission->save();
                 array_push($errorMsg,0);
-                array_push($errorMsg, "Correct Output:\n".$testCase->output);
+                array_push($errorMsg, "Correct Output:\n".$testCaseOutput);
                 array_push($errorMsg, "User Output:\n".$process->getOutput());
                 return $errorMsg;
             }
         }
-
         return 1;
     }
 
