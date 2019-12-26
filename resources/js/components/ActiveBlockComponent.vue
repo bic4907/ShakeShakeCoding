@@ -15,10 +15,10 @@
         props: ['block'],
         mounted: function() {
             var self = this;
-            setInterval(function() {
-                self.$forceUpdate();
-
-            }, 100)
+            // setInterval(function() {
+            //     self.$forceUpdate();
+            //
+            // }, 500)
         },
         computed: {
             renderdContent: function() {

@@ -91,13 +91,15 @@ class EvalFileController extends Controller
                     $isFound = false;
 
                     $searchIndex = strpos($row, "line ");
+
+
                     if ($searchIndex != false) {
                         $isFound = true;
 
                         $iterPos = $searchIndex + 5; // 숫자찾기 시작지점
 
                         $numStr = '';
-                        while ($row[$iterPos] >= '0' and $row[$iterPos] <= '9') {
+                        while ($iterPos <= strlen($row) - 1 and intval($row[$iterPos]) >= 0 and intval($row[$iterPos]) <= 9) {
 
                             $numStr .= $row[$iterPos];
                             $iterPos++;

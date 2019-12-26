@@ -1853,10 +1853,10 @@ __webpack_require__.r(__webpack_exports__);
   name: "ActiveBlockComponent",
   props: ['block'],
   mounted: function mounted() {
-    var self = this;
-    setInterval(function () {
-      self.$forceUpdate();
-    }, 100);
+    var self = this; // setInterval(function() {
+    //     self.$forceUpdate();
+    //
+    // }, 500)
   },
   computed: {
     renderdContent: function renderdContent() {
