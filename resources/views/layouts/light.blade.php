@@ -15,30 +15,14 @@
 
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 
-    {{ Html::style('css/style.css') }}
 
-    <!--{{ Html::style('css/amaran.min.css') }}-->
-    <!--{{ Html::style('css/animate.min.css') }}-->
-
-    <title>
-        @if (View::hasSection('title'))
-            @yield('title') - {{ config('app.name') }}
-        @else
-            {{ config('app.name') }}
-        @endif
-    </title>
 </head>
 <body>
     <div id="app">
 
-
         <section>
             @yield('content')
         </section>
-
-        <footer class="page-footer font-small pt-5 mt-5">
-
-        </footer>
 
     </div>
     <script src="{{ mix('js/app.js') }}"></script>

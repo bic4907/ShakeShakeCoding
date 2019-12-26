@@ -45,3 +45,6 @@ Route::post('/create/{problem_num}', 'Problem\CreateController@addBlinkBlock')->
 
 Route::get('/createaa/{problem_num}', 'Problem\CreateController@inputAnswer')->name('input.answer.view');
 Route::post('/createaa/{problem_num}', 'Problem\CreateController@inputAnswer')->name('input.answer.post');
+
+Route::get('/solve/{question_num}', 'Question\SolveController@show');
+Route::post('/solve/{question_num}', 'Question\SolveController@grade');

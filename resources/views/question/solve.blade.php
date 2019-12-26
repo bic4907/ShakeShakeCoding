@@ -1,10 +1,24 @@
-@extends('layouts.default')
+@extends('layouts.light')
 
 
 @section('content')
-    <div id="header-band" class="w100 row no-gutters">
-        <div class="col-4"></div>
-        <div class="col"></div>
-    </div>
+    <div class="problem-solve-container">
+        <nav class="problem-solve-nav container-fluid">
+            <div class="row">
+                <div class="col-auto">
+                    <a href="{{ route('question.list') }}">
+                         < 문제 목록
+                    </a>
+                </div>
+                <div class="col">
+                    <span class="title lead">{{ $qTitle ?? '' }}</span>
+                </div>
+            </div>
+        </nav>
+        <problem-solve-component>
+        </problem-solve-component>
+    <div>
 
 @endsection
+
+

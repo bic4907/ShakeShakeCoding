@@ -13,17 +13,11 @@
     <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Noto+Sans&display=swap&subset=korean" rel="stylesheet">
     <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script async src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
 
     {{ Html::style('css/style.css') }}
 
-    <!--[if IE]>
-    {{ Html::style('css/style.ie.css') }}
-    <![endif]-->
-
     {{ Html::style('css/loading.css') }}
-    {{ Html::style('css/animate.min.css') }}
-    {{ Html::style('css/github-markdown.css') }}
 
     <title>
         @if (View::hasSection('title'))
@@ -38,10 +32,6 @@
     @endif
 </head>
 <body>
-
-    <div id="global-loading">
-        <div class="lds-ripple"><div></div><div></div></div>
-    </div>
 
     <nav class="navbar navbar-expand-lg navbar-expand">
         <div class="container" style="min-width:1300px;">
@@ -82,11 +72,11 @@
     </nav>
 
 
-    <header style="opacity:0;">
+    <header>
         @yield('header')
     </header>
 
-    <section style="opacity:0;">
+    <section>
         @yield('content')
     </section>
 
@@ -136,34 +126,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
-    <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
-
-    @if (env('APP_ENV') == 'local')
-        <script src="http://{{ Request::getHost() }}:6001/socket.io/socket.io.js"></script>
-    @else
-        <script src="https://{{ Request::getHost() }}:6001/socket.io/socket.io.js"></script>
-    @endif
 
 
-
-    {{ Html::script('js/utils.js') }}
-    {{ Html::script('js/app.js') }}
-    {{ Html::script('js/loading.js') }}
-    {{ Html::script('js/md_viewer.js') }}
-
-    <script>
-        $(function () {
-            $('[data-toggle="tooltip"]').tooltip()
-        })
-        $('.file-uploader').FileUploader()
-        $('.mdviewer').MarkDownViewer()
-        //$('.md-viewer').MDViewer()
-
-    </script>
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
-      });
-    </script>
 </body>
 </html>
