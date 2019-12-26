@@ -24,27 +24,35 @@ class ProfessorController extends Controller
         $questions = $this->getQuestions($user);
         $questionListData = array();
 
+        $question_title = Question::where('professor_id', $user->id)->get();
+
         foreach($questions as $question) {
-            $questionId = $question->id;
+            for($i=0;$i<sizeof($question_title);$i++){
+                if($question_title[$i]->id == $question->id){
+                    $questionId = $question->id;
+                    $title = $question_title[$i]->title;
+                }
+            }
+
             $submissionsCount = $this->getSubmissionCount($questionId);
             $correctSubmissionsCount = $this->getCorrectSubmissionCount($questionId);
             if($submissionsCount > 0)
-                $correctRate = $correctSubmissionsCount/$submissionsCount;
+                $correctRate = round($correctSubmissionsCount/$submissionsCount, 3);
             else $correctRate = 0;
             $studentCount = $this->getStudentCount($questionId);
 
             $questionArray[] = array(
                 'questionId' => $questionId,
+                'title'=>$title,
                 'correctRate' => $correctRate,
                 'studentCount' => $studentCount
             );
-
             $questionListData = collect($questionArray);
         }
 
         $questionListData = $this->paginate($questionListData);
 
-        return view('auth.professor', ['questionListData' => $questionListData]);
+        return view('auth.professor', ['questionListData' => $questionListData, 'title'=>$title]);
     }
 
     public function getQuestions($user)
@@ -69,25 +77,6 @@ class ProfessorController extends Controller
     {
         $studentCount = Submission::where('question_id','=',$question_id)->distinct('student_id')->count();
         return $studentCount;
-    }
-
-    static public function getStudentList($question_id){
-        $studentList = Submission::where('question_id', $question_id)->distinct('student_id')->select('student_id')->get();
-        return $studentList;
-    }
-    static public function getStudentSubmissionCount($question_id, $student_id){
-        $submissionCount = Submission::where('question_id', $question_id)->where('student_id', $student_id)->count();
-        return $submissionCount;
-    }
-
-    static public function getStudentCorrectSubmission($question_id, $student_id){
-        $correctSubmission = Submission::where('question_id', $question_id)->where('isCorrect', true)->where('student_id', $student_id)
-            ->get('isCorrect');
-        return $correctSubmission;
-    }
-    static public function getStudentName($student_id){
-        $studentName = User::where('id', $student_id)->distinct('name')->get();
-        return $studentName;
     }
 
     public function paginate($items, $perPage = 10, $page = null, $options = [])
