@@ -13,7 +13,7 @@
     <div class = "container">
         <div class="list-group py-5">
             @foreach($questionListData as $questionData)
-                <a href="{{route('question.view', ['question_num' => $questionData['questionId']])}}" class="list-group-item list-group-item-action flex-column align-items-start">
+                <a href="{{route('question.view', ['question_id' => $questionData['questionId']])}}" class="list-group-item list-group-item-action flex-column align-items-start">
                     <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-1">questionID : {{$questionData['questionId']}}</h5>
                         <small>correctRate : {{ $questionData['correctRate']}}</small>
