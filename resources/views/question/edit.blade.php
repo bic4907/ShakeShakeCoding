@@ -14,10 +14,7 @@
 
 @section('content')
     <div>
-
         <div id="notice-edit">
-
-
             <div class="container my-5 pb-5">
                 <ul class="nav nav-tabs">
                     <li class="nav-item">

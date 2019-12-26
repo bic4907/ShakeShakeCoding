@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Question;
 use App\Block;
 use App\Exceptions\WrongPathException;
 use App\Question;
+use App\TestCase;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -21,8 +22,13 @@ class RegisterController extends Controller
         $todo_code = new Question();
         $todo_code->code = $request->text;
         $todo_code->professor_id = Auth::user()->id;
-
         $todo_code->save();
+
+        $todo_test = new TestCase();
+        $todo_test->input = $request->input;
+        $todo_test->output = $request->output;
+        $todo_test->question_id = $todo_code->id;
+        $todo_test->save();
 
         return json_encode(array('problem_num'=>$todo_code->id));
     }

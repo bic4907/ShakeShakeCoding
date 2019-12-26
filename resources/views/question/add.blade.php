@@ -26,8 +26,22 @@
             </ul>
             <div class="tab-content">
                 <div class="tab-pane fade show active">
-                        <textarea class="form-control my-3" rows="30" placeholder="정답 코드를 입력해주세요" id="msg"></textarea>
+                        <textarea class="form-control my-3" rows="10" placeholder="정답 코드를 입력해주세요" id="msg"></textarea>
                 </div>
+
+            </div>
+
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active">테스트 케이스</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane fade show active">
+                    <textarea class="form-control my-3" rows="10" style="float:left; width:50%" placeholder="input값을 입력해주세요 ; 로 구분" id="input_test"></textarea>
+                    <textarea class="form-control my-3" rows="10" style="float:right; width:50%" placeholder="output값을 입력해주세요 ; 로 구분" id="output_test"></textarea>
+                </div>
+
             </div>
             <!-- 저장버튼 -->
             <hr class="mb-4">
@@ -41,7 +55,9 @@
     <script>
         function save_code() {
             var param = {
-                text: $("textarea#msg").val().replace(/(?:\r\n|\r|\n)/g, '<br>').replace(/(?: )/g, '&nbsp;')
+                text: $("textarea#msg").val().replace(/(?:\r\n|\r|\n)/g, '<br>').replace(/(?: )/g, '&nbsp;'),
+                input: $("textarea#input_test").val(),
+                output: $("textarea#output_test").val()
             }
             console.log(param)
             $.ajax({
