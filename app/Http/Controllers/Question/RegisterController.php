@@ -22,6 +22,8 @@ class RegisterController extends Controller
         $todo_code = new Question();
         $todo_code->code = $request->text;
         $todo_code->professor_id = Auth::user()->id;
+        $todo_code->title = $request->title;
+        $todo_code->description = $request->description;
         $todo_code->save();
 
         $todo_test = new TestCase();

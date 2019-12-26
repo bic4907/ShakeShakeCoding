@@ -19,6 +19,17 @@
 
         <div class="container my-5 pb-5">
 
+            <div class="tab-content">
+                <div class="tab-pane fade show active">
+                    <textarea class="form-control my-3" rows="1" placeholder="제목을 입력해주세요" id="title"></textarea>
+                </div>
+            </div>
+            <div class="tab-content">
+                <div class="tab-pane fade show active">
+                    <textarea class="form-control my-3" rows="3" placeholder="문제를 입력해주세요" id="description"></textarea>
+                </div>
+            </div>
+
             <ul class="nav nav-tabs">
                 <li class="nav-item">
                     <a class="nav-link active">정답 작성</a>
@@ -28,7 +39,6 @@
                 <div class="tab-pane fade show active">
                         <textarea class="form-control my-3" rows="10" placeholder="정답 코드를 입력해주세요" id="msg"></textarea>
                 </div>
-
             </div>
 
             <ul class="nav nav-tabs">
@@ -41,7 +51,6 @@
                     <textarea class="form-control my-3" rows="10" style="float:left; width:50%" placeholder="input값을 입력해주세요 띄어쓰기로 구분" id="input_test"></textarea>
                     <textarea class="form-control my-3" rows="10" style="float:right; width:50%" placeholder="output값을 입력해주세요 띄어쓰기로 구분" id="output_test"></textarea>
                 </div>
-
             </div>
             <!-- 저장버튼 -->
             <hr class="mb-4">
@@ -57,7 +66,9 @@
             var param = {
                 text: $("textarea#msg").val().replace(/(?:\r\n|\r|\n)/g, '<br>').replace(/(?: )/g, '&nbsp;'),
                 input: $("textarea#input_test").val(),
-                output: $("textarea#output_test").val()
+                output: $("textarea#output_test").val(),
+                title: $("textarea#title").val(),
+                description: $("textarea#description").val()
             }
             console.log(param)
             $.ajax({
