@@ -27,10 +27,10 @@
                 @for($i=0;$i<sizeof($student);$i++)
                 <tr>
                     <td width="40%" class="lead">
-                            {{$student[$i]->student_id}}
+                            {{$student[$i]->name}}
                     </td>
                     <td width="300px" class="lead">{{$submitCount[$i]}}</td>
-                    <td class="lead"> {{$correct[$i]}} </td>
+                    <td class="lead"> {{$correct[$i]->isCorrect ? 'O' : 'X'}} </td>
                 </tr>
                 @endfor
 

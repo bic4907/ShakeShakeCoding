@@ -10,6 +10,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use App\User;
 use RegisterType;
 
 class ProfessorController extends Controller
@@ -83,6 +84,10 @@ class ProfessorController extends Controller
         $correctSubmission = Submission::where('question_id', $question_id)->where('isCorrect', true)->where('student_id', $student_id)
             ->get('isCorrect');
         return $correctSubmission;
+    }
+    static public function getStudentName($student_id){
+        $studentName = User::where('id', $student_id)->distinct('name')->get();
+        return $studentName;
     }
 
     public function paginate($items, $perPage = 10, $page = null, $options = [])
