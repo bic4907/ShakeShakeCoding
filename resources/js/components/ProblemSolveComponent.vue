@@ -17,6 +17,7 @@
         <div>
             <GradingComponent
                 v-bind:blocks="activeBlock"
+                v-bind:question="question"
             ></GradingComponent>
         </div>
     </div>
@@ -33,27 +34,14 @@
     export default {
         name: "ProblemSolveComponent",
         components: {GradingComponent, BlockInventoryComponent, BlockDisplayComponent, draggable},
+        props: ['question', 'submission'],
+        mounted: function() {
+            this.getBlocks()
+        },
         data: function() {
             return {
-                message: 'hr457d67',
-                inactiveBlock: [
-                    {'uuid':uuid.v1(), 'type': 'user', 'content':'a = [[input:inchang]]', 'depth':0},
-                    {'uuid':uuid.v1(), 'type': 'user', 'content':'for i in range([[input:abc]], [[input:zxc]]):', 'depth':0},
-                    {'uuid':uuid.v1(), 'type': 'user', 'content':'a = [[input:inchang]]', 'depth':0},
-                    {'uuid':uuid.v1(), 'type': 'user', 'content':'a = [[input:inchang]]', 'depth':0},
-
-                ],
-                activeBlock: [
-                    {'uuid':uuid.v1(), 'type': 'user', 'content':'for i in range([[input:abc]], 1):', 'depth':0},
-                    {'uuid':uuid.v1(), 'type': 'user', 'content':'for i in range([[input:abc]], [[input:zxc]]):', 'depth':0},
-                    {'uuid':uuid.v1(), 'type': 'user', 'content':'a = 1', 'depth':0},
-                    {'uuid':uuid.v1(), 'type': 'user', 'content':'a = [[input:inchang]]', 'depth':0},
-                    {'uuid':uuid.v1(), 'type': 'user', 'content':'a = [[input:inchang]]', 'depth':0},
-                    {'uuid':uuid.v1(), 'type': 'user', 'content':'a = [[input:inchang]]', 'depth':0},
-                    {'uuid':uuid.v1(), 'type': 'user', 'content':'a = [[input:inchang]]', 'depth':0},
-                    {'uuid':uuid.v1(), 'type': 'user', 'content':'a = [[input:inchang]]', 'depth':0},
-
-                ]
+                inactiveBlock: [],
+                activeBlock: []
             }
         },
         methods: {
@@ -72,6 +60,32 @@
                         {'uuid': uuid.v1(), 'type': 'end-for', 'content':'end-for', 'depth':1}
                     )
                 }
+            },
+            getBlocks: function() {
+                var self = this;
+
+                var blockUrl = self.question.blockUrl;
+
+                axios.get(blockUrl)
+                    .then(function (response) {
+                        var myBlocks = response.data;
+
+                        for(var i = 0; i < myBlocks.length; i++) {
+                            myBlocks[i]['uuid'] = uuid.v1();
+                            myBlocks[i]['depth'] = 0;
+                            myBlocks[i]['type'] = 'user';
+                            myBlocks[i]['lineNumber'] = 0;
+                        }
+                        self.inactiveBlock = myBlocks;
+                        console.log(self.inactiveBlock);
+
+                        self.$forceUpdate();
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    })
+                    .finally(function () {
+                    });
             }
         }
     }

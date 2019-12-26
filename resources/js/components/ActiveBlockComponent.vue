@@ -1,6 +1,6 @@
 <template>
     <div class="block-item row d-inline" v-bind:style="renderdStyleFirst">
-        <div class="col d-inline" v-if="block.type == 'user'" v-html="">#</div>
+        <div class="col d-inline" v-if="block.type == 'user'" v-html="">{{ block.lineNumber }}</div>
         <div class="col d-inline block-inline" v-html="renderdContent" v-bind:style="renderdStyleSecond"></div>
         <!--<div class="col">{{ block.depth }}</div>-->
     </div>
@@ -10,7 +10,15 @@
     export default {
         name: "ActiveBlockComponent",
         props: ['block'],
-
+        // mounted: function() {
+        //     var self = this;
+        //     setInterval(function() {
+        //         console.log('hi');
+        //         self.$forceUpdate();
+        //         self.block.depth = 0;
+        //         self.block.depth = 1;
+        //     }, 1000)
+        // },
         computed: {
             renderdContent: function() {
                 var html = this.block.content
@@ -49,6 +57,7 @@
                 }
             },
             renderdStyleSecond: function() {
+                console.log('render!', this.block.depth)
                 var height = null;
                 var padding = null;
                 var opacity = null;
@@ -64,6 +73,9 @@
                 return {
                     marginLeft: this.block.depth * 80 + 'px'
                 }
+            },
+            invalidate: function() {
+                console.log('invalidate');
             }
         }
     }
