@@ -1846,9 +1846,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ActiveBlockComponent",
   props: ['block'],
+  mounted: function mounted() {
+    var self = this;
+    setInterval(function () {
+      self.$forceUpdate();
+    }, 100);
+  },
   computed: {
     renderdContent: function renderdContent() {
       var html = this.block.content;
@@ -2235,10 +2243,11 @@ __webpack_require__.r(__webpack_exports__);
       axios.post(gradingUrl, {
         blocks: convertedBlocks
       }).then(function (response) {
-        self.currentResponse = response.data;
+        self.currentResponse = response.data['log'];
         console.log(response);
         self.currentMessage = '대기 중';
         console.log('채점 완료');
+        self.$emit('debugReceived', response.data['debug']);
       })["catch"](function (error) {
         console.log('오류가 나면서 완료됨');
         self.currentResponse = [error.toString()];
@@ -2255,6 +2264,7 @@ __webpack_require__.r(__webpack_exports__);
         copyBlock.content = block.content;
         copyBlock.type = block.type;
         copyBlock.depth = block.depth;
+        copyBlock.uuid = block.uuid;
 
         while (copyBlock.content.match(regexp) != null) {
           var found = copyBlock.content.match(regexp);
@@ -2353,6 +2363,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -2420,6 +2431,19 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (error) {
         console.log(error);
       })["finally"](function () {});
+    },
+    debugReceived: function debugReceived(debugInfo) {
+      console.log(debugInfo);
+      $.each(this.activeBlock, function (i, e) {
+        if (e.uuid != debugInfo['line']) {
+          e.warnFlag = false;
+          e.warnMsg = null;
+        } else {
+          console.log('found!', i);
+          e.warnFlag = true;
+          e.warnMsg = debugInfo['message'];
+        }
+      });
     }
   }
 });
@@ -41971,9 +41995,25 @@ var render = function() {
       _vm._v(" "),
       _c("div", {
         staticClass: "col d-inline block-inline",
+        class: { warning: _vm.block.warnFlag },
         style: _vm.renderdStyleSecond,
         domProps: { innerHTML: _vm._s(_vm.renderdContent) }
-      })
+      }),
+      _vm._v(" "),
+      _vm.block.warnFlag
+        ? _c("i", {
+            directives: [
+              {
+                name: "b-tooltip",
+                rawName: "v-b-tooltip.hover",
+                modifiers: { hover: true }
+              }
+            ],
+            staticClass: "fas fa-exclamation-triangle",
+            staticStyle: { cursor: "pointer" },
+            attrs: { title: _vm.block.warnMsg }
+          })
+        : _vm._e()
     ]
   )
 }
@@ -42285,7 +42325,8 @@ var render = function() {
       "div",
       [
         _c("GradingComponent", {
-          attrs: { blocks: _vm.activeBlock, question: _vm.question }
+          attrs: { blocks: _vm.activeBlock, question: _vm.question },
+          on: { debugReceived: _vm.debugReceived }
         })
       ],
       1

@@ -8,6 +8,7 @@ use App\SubmissionFile;
 use App\TestCase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
@@ -56,7 +57,11 @@ class EvalFileController extends Controller
         $submission = Submission::where('id',$submission_num)->first();
         $testCases = TestCase::where( 'question_id',$submission->question_id)->get();
         $submissionFile = SubmissionFile::where('submission_id',$submission_num)->first();
-        $errorMsg = array();
+
+        $gradeResult = array(
+            'debug'=>array('line'=>null, 'message'=>null),
+            'log'=>array()
+        );
 
         foreach($testCases as $testCase)
         {
@@ -67,23 +72,60 @@ class EvalFileController extends Controller
 
             if (!$process->isSuccessful()) {
                 $error = $process->getErrorOutput();
-                array_push($errorMsg, -1);
-                array_push($errorMsg, $error);
-                return $errorMsg;
-            }
+                $errorArr = explode(PHP_EOL, $error);
 
-            if($process->getOutput() != $testCase->output)
-            {
+                array_push($gradeResult['log'], '문법오류');
+                $gradeResult['log'] = array_merge($gradeResult['log'], $errorArr);
+
+
+                /*
+                 * 디버그 정보를 읽어서 라인에 표시를 해주어야함
+                 */
+                $targetRow = null;
+                foreach($errorArr as $row) {
+                    $isFound = false;
+
+                    $searchIndex = strpos($row, "line ");
+                    if($searchIndex != false) {
+                        $isFound = true;
+
+                        $iterPos = $searchIndex + 5; // 숫자찾기 시작지점
+
+                        $numStr = '';
+                        while($row[$iterPos] >= '0' and $row[$iterPos] <= '9') {
+
+                            $numStr .= $row[$iterPos];
+                            $iterPos++;
+                        }
+
+
+
+                        $debugInfo = json_decode(Storage::disk('local')->get("file/".$submissionFile->uuid.'.debug'), true);
+                        $gradeResult['debug']['line'] = $debugInfo[intval($numStr)];
+                        $gradeResult['debug']['message'] = '메세지는 여기에 적어주세요';
+
+
+                    }
+
+                    if($isFound) break;
+                }
+
+
+
+
+            } else if($process->getOutput() != $testCase->output) {
                 $submission->isCorrect = 0;
                 $submission->save();
-                array_push($errorMsg,0);
-                array_push($errorMsg, "Correct Output:\n".$testCase->output);
-                array_push($errorMsg, "User Output:\n".$process->getOutput());
-                return $errorMsg;
+
+                array_push($gradeResult['log'], '오답입니다!');
+                array_push($gradeResult['log'], "Correct Output:\n".$testCase->output);
+                array_push($gradeResult['log'], "User Output:\n".$process->getOutput());
+            } else {
+                array_push($gradeResult['log'], '정답입니다!');
             }
         }
 
-        return 1;
+        return $gradeResult;
     }
 
 }

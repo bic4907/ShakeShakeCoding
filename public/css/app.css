@@ -11392,6 +11392,10 @@ a.text-dark:focus {
   transition: all 0.3s cubic-bezier(0.05, 0.95, 0.58, 1);
 }
 
+.problem-solve .block-item .block-inline.warning {
+  background: #ff9898;
+}
+
 .problem-solve .block-item input {
   margin: 0px 10px;
 }
@@ -11444,5 +11448,10 @@ a.text-dark:focus {
   border-bottom: 1px solid #e0e0e0;
   height: 50px;
   line-height: 50px;
+}
+
+.problem-solve .grading-component .resultDisplay {
+  max-height: 100px;
+  overflow-y: scroll;
 }
 

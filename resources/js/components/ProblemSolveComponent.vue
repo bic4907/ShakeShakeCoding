@@ -18,6 +18,7 @@
             <GradingComponent
                 v-bind:blocks="activeBlock"
                 v-bind:question="question"
+                v-on:debugReceived="debugReceived"
             ></GradingComponent>
         </div>
     </div>
@@ -86,6 +87,21 @@
                     })
                     .finally(function () {
                     });
+            },
+            debugReceived: function(debugInfo) {
+                console.log(debugInfo)
+
+                $.each(this.activeBlock, function(i, e) {
+                    if(e.uuid != debugInfo['line']) {
+                        e.warnFlag = false;
+                        e.warnMsg = null;
+                    } else {
+                        console.log('found!', i);
+                        e.warnFlag = true;
+                        e.warnMsg = debugInfo['message'];
+                    }
+                })
+
             }
         }
     }
