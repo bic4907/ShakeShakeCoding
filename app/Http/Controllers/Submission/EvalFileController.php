@@ -116,13 +116,10 @@ class EvalFileController extends Controller
             } else if (trim($process->getOutput()) != trim($testCaseOutput)) {
                     $submission->isCorrect = 0;
                     $submission->save();
-                    $errorMsg = '실행은 되었으나 잘못된 값이 나왔습니다.';
-                    $errorMsg = $errorMsg . '올바른 값 : ' . $testCaseOutput . '프래그램 실행 값 : ' . $process->getOutput();
-                    return $errorMsg;
 
-                    array_push($gradeResult['log'], '오답입니다!');
-                    array_push($gradeResult['log'], "Correct Output:\n" . $testCase->output);
-                    array_push($gradeResult['log'], "User Output:\n" . $process->getOutput());
+                    array_push($gradeResult['log'], '실행은 되었으나 잘못된 값이 나왔습니다.');
+                    array_push($gradeResult['log'], "올바른 값:\n" . $testCase->output);
+                    array_push($gradeResult['log'], "프로그램 실행 값:\n" . $process->getOutput());
                 } else {
                     array_push($gradeResult['log'], '정답입니다!');
                 }
@@ -148,7 +145,7 @@ class EvalFileController extends Controller
 
         if($errorTypeName)
         {
-            preg_match("/name \'(.*)\'/", $error, $errorName);
+            preg_match("/(?)name \'(.*)\'/", $error, $errorName);
             $errorMsg = $errorMsg.$errorName[0].'변수 선언이 제대로 됐는지 확인하세요.';
         }
         else if($errorTypeZeroDiv)
