@@ -52,11 +52,15 @@
                         blocks: convertedBlocks
                     })
                     .then(function (response) {
-                        self.currentResponse = response.data;
+                        self.currentResponse = response.data['log'];
                         console.log(response);
 
                         self.currentMessage = '대기 중';
                         console.log('채점 완료');
+
+                        self.$emit('debugReceived', response.data['debug'])
+
+
                     })
                     .catch(function (error) {
                         console.log('오류가 나면서 완료됨');
@@ -81,6 +85,7 @@
                     copyBlock.content = block.content;
                     copyBlock.type = block.type;
                     copyBlock.depth = block.depth;
+                    copyBlock.uuid = block.uuid;
 
                     while (copyBlock.content.match(regexp) != null) {
                         var found = copyBlock.content.match(regexp);

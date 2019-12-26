@@ -1,8 +1,10 @@
 <template>
     <div class="block-item row d-inline" v-bind:style="renderdStyleFirst">
         <div class="col d-inline" v-if="block.type == 'user'" v-html="">{{ block.lineNumber }}</div>
-        <div class="col d-inline block-inline" v-html="renderdContent" v-bind:style="renderdStyleSecond"></div>
-        <!--<div class="col">{{ block.depth }}</div>-->
+        <div class="col d-inline block-inline" v-html="renderdContent" v-bind:style="renderdStyleSecond" :class="{'warning':block.warnFlag}"></div>
+
+        <i class="fas fa-exclamation-triangle" v-if="block.warnFlag" v-b-tooltip.hover :title="block.warnMsg" style="cursor:pointer"></i>
+
     </div>
 </template>
 
@@ -10,6 +12,13 @@
     export default {
         name: "ActiveBlockComponent",
         props: ['block'],
+        mounted: function() {
+            var self = this;
+            setInterval(function() {
+                self.$forceUpdate();
+
+            }, 100)
+        },
         computed: {
             renderdContent: function() {
                 var html = this.block.content
@@ -54,6 +63,9 @@
                 var opacity = null;
                 var fontsize = null;
                 var margin = null;
+
+
+
                 if(this.block.type == 'end-for' || this.block.type =='begin-for') {
                     height = 0;
                     fontsize = '10px';
