@@ -41,6 +41,7 @@ class RegisterController extends Controller
     function addBlinkBlock($problem_num, Request $request){
         $request->text = str_replace('&nbsp;', ' ', $request->text);
         $temp = explode('!!]]', $request->text);
+        $sequence=1;
         for($i=0;$i<sizeof($temp);$i++){
             $result[$i] = strstr($temp[$i], '[[!!');
             $result[$i] = substr($result[$i], 4);
@@ -48,9 +49,12 @@ class RegisterController extends Controller
             if(strlen($result[$i])>0) {
                 $todo_block = new Block();
                 $todo_block->question_id = $problem_num;
+                $todo_block->sequence = $sequence;
                 $todo_block->type = '0';
                 $todo_block->content = $result[$i];
                 $todo_block->save();
+
+                $sequence++;
             }
         }
 
@@ -70,6 +74,7 @@ class RegisterController extends Controller
                 $todo_block = new Block();
                 $todo_block->question_id = $problem_num;
                 $todo_block->type = '1';
+                $todo_block->sequence = Null;
                 $todo_block->content = trim($block[$i]);
                 $todo_block->save();
             }

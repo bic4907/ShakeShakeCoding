@@ -38,8 +38,8 @@
             </ul>
             <div class="tab-content">
                 <div class="tab-pane fade show active">
-                    <textarea class="form-control my-3" rows="10" style="float:left; width:50%" placeholder="input값을 입력해주세요 ; 로 구분" id="input_test"></textarea>
-                    <textarea class="form-control my-3" rows="10" style="float:right; width:50%" placeholder="output값을 입력해주세요 ; 로 구분" id="output_test"></textarea>
+                    <textarea class="form-control my-3" rows="10" style="float:left; width:50%" placeholder="input값을 입력해주세요 띄어쓰기로 구분" id="input_test"></textarea>
+                    <textarea class="form-control my-3" rows="10" style="float:right; width:50%" placeholder="output값을 입력해주세요 띄어쓰기로 구분" id="output_test"></textarea>
                 </div>
 
             </div>
