@@ -2423,10 +2423,14 @@ __webpack_require__.r(__webpack_exports__);
           myBlocks[i]['depth'] = 0;
           myBlocks[i]['type'] = 'user';
           myBlocks[i]['lineNumber'] = 0;
+
+          if (myBlocks[i]['block_type'] == 0) {
+            self.inactiveBlock.push(myBlocks[i]);
+          } else {
+            self.activeBlock.push(myBlocks[i]);
+          }
         }
 
-        self.inactiveBlock = myBlocks;
-        console.log(self.inactiveBlock);
         self.$forceUpdate();
       })["catch"](function (error) {
         console.log(error);
