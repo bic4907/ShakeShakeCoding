@@ -12,6 +12,12 @@
 
     <div class = "container">
         <div class="list-group py-5">
+            @if(Auth::check() && Auth::user()->usertype == App\Enums\UserType::Professor)
+            <div class="mt-5">
+                <a href="{{route('question.add')}}"><button type="button" class="btn btn-outline-secondary float-right">문제 출제하기</button></a>
+            </div>
+            </br>
+            @endif
             @foreach($questions as $question)
                 <a href="{{route('question.view', ['question_id' => $question->id])}}" class="list-group-item list-group-item-action flex-column align-items-start">
                     <div class="d-flex w-100 justify-content-between">
