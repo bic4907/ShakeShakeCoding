@@ -24,7 +24,7 @@ class SolveController extends Controller
         $submission = new Submission;
         $submission->question_id = $question_num;
         $submission->student_id = Auth::id();
-        $submission->save();;
+        $submission->save();
 
         return redirect(
             route('submission.view', [
