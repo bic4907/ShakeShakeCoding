@@ -1,10 +1,11 @@
-@extends('layouts.default')
+@extends('layouts.app')
 
 @section('title')
     Sign In
 @endsection
 
 @section('header')
+    @include('layouts.header')
 @endsection
 
 @section('content')

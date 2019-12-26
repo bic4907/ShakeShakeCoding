@@ -28,7 +28,7 @@ Route::get('/', function () {
 })->name('home');
 
 
-Route::group(['prefix' => 'question'],function(){
+Route::group(['middleware' => 'permit:Professor,Student', 'prefix' => 'question'],function(){
     Route::get('/add/{problem_num}', 'Question\RegisterController@show')->name('question.add');
     Route::post('/add/{problem_num}', 'Question\RegisterController@add')->name('question.add.post');
     Route::get('/edit/{problem_num}', 'Question\RegisterController@editAnswer')->name('question.edit');
@@ -39,7 +39,7 @@ Route::group(['prefix' => 'question'],function(){
 });
 
 
-Route::group(['prefix' => 'mypage'], function() {
+Route::group(['middleware' => 'permit:Professor,Student', 'prefix' => 'mypage'], function() {
     Route::get('/', 'Auth\MypageController@show')->name('mypage');
     Route::get('/question', 'MyPage\ProfessorController@showList')->name('mypage.question.list');
     Route::get('/submission', 'MyPage\StudentController@showList')->name('mypage.submission.list');
