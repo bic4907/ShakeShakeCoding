@@ -24,12 +24,11 @@ class RegisterController extends Controller
 
         $todo_code->save();
 
-        return redirect()->route('question.edit' , ['problem_num'=>$todo_code->id, 'description'=>$todo_code->code, 'header_title'=>'문제 만들기']);
+        return json_encode(array('problem_num'=>$todo_code->id));
     }
 
     function editAnswer($problem_num){
         $description = Question::where('id', $problem_num)->select('code')->first();
-//        echo($description->code);
         return view('question.edit', ['problem_num'=>$problem_num, 'description'=>$description->code, 'header_title'=>'문제 만들기']);
     }
 
@@ -41,8 +40,6 @@ class RegisterController extends Controller
             $result[$i] = substr($result[$i], 4);
 
             if(strlen($result[$i])>0) {
-//                echo('block = ' . $result[$i] . ' size = ' . strlen($result[$i]) . '<br>');
-
                 $todo_block = new Block();
                 $todo_block->question_id = $problem_num;
                 $todo_block->type = '0';

@@ -48,8 +48,10 @@
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                 type: "POST",
                 url: "/question/add",
+                dataType : "JSON",
                 data: param,
                 success: function (data) {
+                    window.location.href =  "/question/edit/" + data['problem_num'];
                 },
                 error: function (xhr, status, error) {
                     alert(error);
