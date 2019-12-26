@@ -1,5 +1,12 @@
-@extends('layouts.light')
+@extends('layouts.app')
 
+@section('title')
+    Question Submission List
+@endsection
+
+@section('header')
+    @include('layouts.short_head')
+@endsection
 
 @section('content')
 
