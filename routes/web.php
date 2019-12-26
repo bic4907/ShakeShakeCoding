@@ -29,8 +29,11 @@ Route::get('/', function () {
 
 
 Route::group(['prefix' => 'question'],function(){
-    Route::get('/add', 'Question\RegisterController@show')->name('question.add');
-    Route::post('/add', 'Question\RegisterController@add')->name('question.add.post');
+    Route::get('/add/{problem_num}', 'Question\RegisterController@show')->name('question.add');
+    Route::post('/add/{problem_num}', 'Question\RegisterController@add')->name('question.add.post');
+    Route::get('/edit/{problem_num}', 'Question\RegisterController@editAnswer')->name('question.edit');
+    Route::post('/edit/{problem_num}', 'Question\RegisterController@addBlinkBlock')->name('question.edit.post');
+
     Route::get('/list', 'Question\ListController@showList')->name('question.list');
     Route::get('/{question_id}', 'Question\ViewerController@show')->name('question.view');
 });
@@ -41,12 +44,6 @@ Route::group(['prefix' => 'mypage'], function() {
     Route::get('/question', 'MyPage\ProfessorController@showList')->name('mypage.question.list');
     Route::get('/submission', 'MyPage\StudentController@showList')->name('mypage.submission.list');
 });
-
-Route::get('/create/{problem_num}', 'Problem\CreateController@showAnswer')->name('Answer');
-Route::post('/create/{problem_num}', 'Problem\CreateController@addBlinkBlock')->name('Blink_Block');
-
-Route::get('/createaa/{problem_num}', 'Problem\CreateController@inputAnswer')->name('input.answer.view');
-Route::post('/createaa/{problem_num}', 'Problem\CreateController@inputAnswer')->name('input.answer.post');
 
 Route::get('/solve/{question_num}', 'Question\SolveController@show');
 Route::post('/solve/{question_num}', 'Question\SolveController@grade');

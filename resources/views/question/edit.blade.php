@@ -1,39 +1,53 @@
 @extends('layouts.app')
 
+@section('title')
+    Question Add
+@endsection
+
+@section('header-title')
+    {{ $header_title }}
+@endsection
+
+@section('header')
+    @include('layouts.short_head')
+@endsection
+
 @section('content')
     <div>
-        <div id="getEverything">
-            {!!$description!!}
-        </div>
 
-        <div>
-            <textarea id="msg"></textarea>
+        <div id="notice-edit">
+
+            <div class="container my-5 pb-5">
+
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active">문제 작성</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="getEverything">
+                        {!!$description!!}
+                    </div>
+                </div>
+                <!-- 저장버튼 -->
+                <hr class="mb-4">
+                <div class="pt-3">
+                    <button class="btn btn-primary btn-lg btn-block" type="submit" onclick="save_code()"
+                            onclick="wfSel.replace('[[input:'+randomString()+']]')">블링크
+                    </button>
+                </div>
+            </div>
         </div>
+        {{--        --}}
+        {{--        <div id="getEverything">--}}
+        {{--            {!!$description!!}--}}
+        {{--        </div>--}}
 
         <button type="submit" onclick="wfSel.replace('[[input:'+randomString()+']]')">블링크</button>
         <button type="submit" onclick="wfSel.replace('[[!!'+wfSel.getTEXT()+'!!]]')">블럭</button>
         <button type="submit" onclick="something()">제출</button>
-        <button type="submit" onclick="something2()">제출!!</button>
 
         <script type="text/javascript">
-            function something2() {
-
-                var param = {
-                    text: $("textarea#msg").val().replace(/(?:\r\n|\r|\n)/g, '<br>').replace(/(?: )/g, '&nbsp;')
-                }
-                console.log(param)
-                $.ajax({
-                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                    type: "POST",
-                    url: "/createaa/{{$problem_num}}",
-                    data: param,
-                    success: function (data) {
-                    },
-                    error: function (xhr, status, error) {
-                        alert(error);
-                    }
-                });
-            }
             function something() {
                 var param = {
                     text: $("#getEverything").html()
@@ -42,7 +56,7 @@
                 $.ajax({
                     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                     type: "POST",
-                    url: "/create/{{$problem_num}}",
+                    url: "/question/edit/{{$problem_num}}",
                     data: param,
                     success: function (data) {
                     },
