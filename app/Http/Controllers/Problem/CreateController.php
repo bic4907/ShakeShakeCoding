@@ -11,7 +11,9 @@ use App\Question;
 class CreateController extends Controller
 {
     function inputAnswer($problem_num, Request $request){
-        $description = Question::where('id', $problem_num)->select('code')->first();
+                echo($request->text);
+
+//        $description = Question::where('id', $problem_num)->select('code')->first();
     }
 
     function showAnswer($problem_num){

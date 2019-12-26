@@ -1,23 +1,39 @@
-@extends('layouts.default')
+@extends('layouts.app')
 
 @section('content')
     <div>
         <div id="getEverything">
-{{--            for i in range(10) :</br>--}}
-{{--            sum += i</br>--}}
-{{--            </br>--}}
-{{--            print('sum = %d', sum)</br>--}}
-{{--            </br>--}}
-            {{$description}}
+            {!!$description!!}
         </div>
+
+        <div>
+            <textarea id="msg"></textarea>
+        </div>
+
         <button type="submit" onclick="wfSel.replace('[[input:'+randomString()+']]')">블링크</button>
         <button type="submit" onclick="wfSel.replace('[[!!'+wfSel.getTEXT()+'!!]]')">블럭</button>
         <button type="submit" onclick="something()">제출</button>
-        {{--        <button type="submit" onclick="blink_button()">블링크</button>--}}
-        {{--        <button type="submit" onclick="block_button()">블럭</button>--}}
+        <button type="submit" onclick="something2()">제출!!</button>
 
         <script type="text/javascript">
+            function something2() {
 
+                var param = {
+                    text: $("textarea#msg").val().replace(/(?:\r\n|\r|\n)/g, '<br>').replace(/(?: )/g, '&nbsp;')
+                }
+                console.log(param)
+                $.ajax({
+                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                    type: "POST",
+                    url: "/createaa/{{$problem_num}}",
+                    data: param,
+                    success: function (data) {
+                    },
+                    error: function (xhr, status, error) {
+                        alert(error);
+                    }
+                });
+            }
             function something() {
                 var param = {
                     text: $("#getEverything").html()
