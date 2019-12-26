@@ -15,11 +15,11 @@
             @foreach($questionListData as $questionData)
                 <a href="{{route('question.view', ['question_id' => $questionData['questionId']])}}" class="list-group-item list-group-item-action flex-column align-items-start">
                     <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">questionID : {{$questionData['questionId']}}</h5>
-                        <small>correctRate : {{ $questionData['correctRate']}}</small>
+                        <h5 class="mb-1">과제 제목 : {{$questionData['title']}}</h5>
+                        <small>정답률 : {{ $questionData['correctRate']}}</small>
                     </div>
 
-                    <small>participate students count : {{ $questionData['studentCount']}}</small>
+                    <small>제출한 학생 수 : {{ $questionData['studentCount']}}</small>
                 </a>
             @endforeach
         </div>
