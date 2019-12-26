@@ -3,11 +3,12 @@
 @section('content')
     <div>
         <div id="getEverything">
-            for i in range(10) :</br>
-            sum += i</br>
-            </br>
-            print('sum = %d', sum)</br>
-            </br>
+{{--            for i in range(10) :</br>--}}
+{{--            sum += i</br>--}}
+{{--            </br>--}}
+{{--            print('sum = %d', sum)</br>--}}
+{{--            </br>--}}
+            {{$description}}
         </div>
         <button type="submit" onclick="wfSel.replace('[[input:'+randomString()+']]')">블링크</button>
         <button type="submit" onclick="wfSel.replace('[[!!'+wfSel.getTEXT()+'!!]]')">블럭</button>
