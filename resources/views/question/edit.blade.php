@@ -17,11 +17,18 @@
 
         <div id="notice-edit">
 
-            <div class="container my-5 pb-5">
 
+            <div class="container my-5 pb-5">
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
-                        <a class="nav-link active">문제 작성</a>
+                        <a class="nav-link active">빈칸</a>
+                    </li>
+                    <li class="nav-item">
+                        <div class="nav nav-tabs list-group mb-3" style="border-bottom-width: 0px;">
+                            <a class="nav-item nav-links list-group-item list-group-item-action d-flex justify-content-between"
+                               data-toggle="tab" href="#block">블럭
+                            </a>
+                        </div>
                     </li>
                 </ul>
                 <div class="tab-content">
@@ -29,26 +36,45 @@
                         {!!$description!!}
                     </div>
                 </div>
-                <!-- 저장버튼 -->
+
                 <hr class="mb-4">
-                <div class="pt-3">
-                    <button class="btn btn-primary btn-lg btn-block" type="submit" onclick="save_code()"
-                            onclick="wfSel.replace('[[input:'+randomString()+']]')">블링크
-                    </button>
+                <div class="tab-content">
+                    @if(session('success'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            {{session('success')}}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    @endif
+                    @if(session('error'))
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            {{session('error')}}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                @endif
+
+                <!-- 저장버튼 -->
+                    <div class="tab-pane fade active show" id="blink">
+                        @include('question.editBlink')
+                    </div>
+                    <div class="tab-pane fade" id="block">
+                        @include('question.editBlock')
+                    </div>
+                    <div class="pt-3">
+                        <button class="btn btn-primary" type="submit"
+                                onclick="submitProblem()">제출
+                        </button>
+                    </div>
                 </div>
+
             </div>
         </div>
-        {{--        --}}
-        {{--        <div id="getEverything">--}}
-        {{--            {!!$description!!}--}}
-        {{--        </div>--}}
-
-        <button type="submit" onclick="wfSel.replace('[[input:'+randomString()+']]')">블링크</button>
-        <button type="submit" onclick="wfSel.replace('[[!!'+wfSel.getTEXT()+'!!]]')">블럭</button>
-        <button type="submit" onclick="something()">제출</button>
 
         <script type="text/javascript">
-            function something() {
+            function submitProblem() {
                 var param = {
                     text: $("#getEverything").html()
                 }
@@ -65,47 +91,45 @@
                     }
                 });
             }
+            {{--function blink_button() {--}}
+                {{--    var param = {--}}
+                {{--        blink: wfSel.getTEXT()--}}
+                {{--    }--}}
+                {{--    console.log(param)--}}
+                {{--    $.ajax({--}}
+                {{--        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},--}}
+                {{--        type: "POST",--}}
+                {{--        url: "/create/{{$problem_num}}",--}}
+                {{--        data: param,--}}
+                {{--        success: function (data) {--}}
+                {{--            wfSel.replace('[[input:' + randomString() + ']]');--}}
+                {{--        },--}}
+                {{--        error: function (xhr, status, error) {--}}
+                {{--            alert(error);--}}
+                {{--        }--}}
+                {{--    });--}}
+                {{--}--}}
 
-            /*
-            function blink_button() {
-                var param = {
-                    blink: wfSel.getTEXT()
-                }
-                console.log(param)
-                $.ajax({
-                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                    type: "POST",
-                    url: "/create/{{$problem_num}}",
-                    data: param,
-                    success: function (data) {
-                        wfSel.replace('[[input:'+randomString()+']]');
-                    },
-                    error: function (xhr, status, error) {
-                        alert(error);
-                    }
-                });
-            }
+                {{--function block_button() {--}}
+                {{--    var param = {--}}
+                {{--        block: wfSel.getTEXT()--}}
+                {{--    }--}}
+                {{--    console.log(param)--}}
+                {{--    $.ajax({--}}
+                {{--        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},--}}
+                {{--        type: "POST",--}}
+                {{--        url: "/create/{{$problem_num}}",--}}
+                {{--        data: param,--}}
+                {{--        success: function (data) {--}}
+                {{--            wfSel.replace('{' + param.block + '}');--}}
+                {{--        },--}}
+                {{--        error: function (xhr, status, error) {--}}
+                {{--            alert(error);--}}
+                {{--        }--}}
+                {{--    });--}}
+                {{--}--}}
 
-            function block_button() {
-                var param = {
-                    block: wfSel.getTEXT()
-                }
-                console.log(param)
-                $.ajax({
-                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                    type: "POST",
-                    url: "/create/{{$problem_num}}",
-                    data: param,
-                    success: function (data) {
-                        wfSel.replace('{' + param.block + '}');
-                    },
-                    error: function (xhr, status, error) {
-                        alert(error);
-                    }
-                });
-            }
-*/
-            wfSel = {};
+                wfSel = {};
             (function (_self) {
                 var _sel = window.getSelection();
                 if (_sel) {
