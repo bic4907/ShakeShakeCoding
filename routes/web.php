@@ -12,8 +12,6 @@
 */
 
 use Illuminate\Support\Facades\Route;
-use function foo\func;
-
 
 Route::get('/login', function (){
     return view('/auth/login');
@@ -22,6 +20,13 @@ Route::get('/login', function (){
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
 Auth::routes();
+
+Route::get('/solve/{question_num}', 'Submission\SolveController@makeSubmission')->name('submission.create');
+Route::get('/solve/{question_num}/{submission_num}', 'Submission\SolveController@showSubmission')->name('submission.view');
+Route::get('/block/{question_num}', 'Question\ViewerController@getBlockList')->name('question.blocklist');
+Route::post('/solve/{question_num}/{submission_num}/grade', 'Submission\EvalFileController@grade')->name('submission.grade');
+
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -46,5 +51,3 @@ Route::post('/create/{problem_num}', 'Problem\CreateController@addBlinkBlock')->
 Route::get('/createaa/{problem_num}', 'Problem\CreateController@inputAnswer')->name('input.answer.view');
 Route::post('/createaa/{problem_num}', 'Problem\CreateController@inputAnswer')->name('input.answer.post');
 
-Route::get('/solve/{question_num}', 'Question\SolveController@show');
-Route::post('/solve/{question_num}', 'Question\SolveController@grade');

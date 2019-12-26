@@ -4,6 +4,7 @@
             <transition-group>
                 <li v-for="block in blocks" :key="block.uuid">
                     <ActiveBlockComponent
+                        :key="block.uuid"
                         v-bind:block="block"
                     ></ActiveBlockComponent>
                 </li>
@@ -172,11 +173,15 @@
 
                 this.renderDepth()
                 this.markNumber()
+                this.$forceUpdate()
 
             },
             renderDepth: function() {
                 var depth = 0;
                 for(var i = 0; i < this.blocks.length; i++) {
+
+                    console.log(i, this.blocks[i]);
+
                     var flag = false;
 
                     this.blocks[i].depth = depth;

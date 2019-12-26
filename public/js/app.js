@@ -1849,6 +1849,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ActiveBlockComponent",
   props: ['block'],
+  // mounted: function() {
+  //     var self = this;
+  //     setInterval(function() {
+  //         console.log('hi');
+  //         self.$forceUpdate();
+  //         self.block.depth = 0;
+  //         self.block.depth = 1;
+  //     }, 1000)
+  // },
   computed: {
     renderdContent: function renderdContent() {
       var html = this.block.content;
@@ -1888,6 +1897,7 @@ __webpack_require__.r(__webpack_exports__);
       };
     },
     renderdStyleSecond: function renderdStyleSecond() {
+      console.log('render!', this.block.depth);
       var height = null;
       var padding = null;
       var opacity = null;
@@ -1905,6 +1915,9 @@ __webpack_require__.r(__webpack_exports__);
       return {
         marginLeft: this.block.depth * 80 + 'px'
       };
+    },
+    invalidate: function invalidate() {
+      console.log('invalidate');
     }
   }
 });
@@ -1922,6 +1935,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ActiveBlockComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ActiveBlockComponent */ "./resources/js/components/ActiveBlockComponent.vue");
 /* harmony import */ var vue_uuid__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-uuid */ "./node_modules/vue-uuid/dist/vue-uuid.es.js");
+//
 //
 //
 //
@@ -2060,11 +2074,13 @@ __webpack_require__.r(__webpack_exports__);
 
       this.renderDepth();
       this.markNumber();
+      this.$forceUpdate();
     },
     renderDepth: function renderDepth() {
       var depth = 0;
 
       for (var i = 0; i < this.blocks.length; i++) {
+        console.log(i, this.blocks[i]);
         var flag = false;
         this.blocks[i].depth = depth;
 
@@ -2203,9 +2219,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "GradingComponent",
-  props: ['blocks'],
+  props: ['blocks', 'question'],
   data: function data() {
     return {
       currentMessage: '대기 중',
@@ -2217,8 +2235,8 @@ __webpack_require__.r(__webpack_exports__);
       var self = this;
       console.log('채점 시작');
       this.currentMessage = '채점 중';
-      console.log(this.blocks);
-      axios.post('/solve/1', {
+      var gradingUrl = self.question.gradingUrl;
+      axios.post(gradingUrl, {
         blocks: this.blocks
       }).then(function (response) {
         self.currentResponse = response.data;
@@ -2227,6 +2245,7 @@ __webpack_require__.r(__webpack_exports__);
         console.log('채점 완료');
       })["catch"](function (error) {
         console.log('오류가 나면서 완료됨');
+        self.currentMessage = error;
         console.log(error);
       })["finally"](function () {
         self.currentMessage = '대기 중';
@@ -2315,6 +2334,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -2328,71 +2348,14 @@ __webpack_require__.r(__webpack_exports__);
     BlockDisplayComponent: _BlockDisplayComponent__WEBPACK_IMPORTED_MODULE_0__["default"],
     draggable: vuedraggable__WEBPACK_IMPORTED_MODULE_2___default.a
   },
+  props: ['question', 'submission'],
+  mounted: function mounted() {
+    this.getBlocks();
+  },
   data: function data() {
     return {
-      message: 'hr457d67',
-      inactiveBlock: [{
-        'uuid': vue_uuid__WEBPACK_IMPORTED_MODULE_3__["uuid"].v1(),
-        'type': 'user',
-        'content': 'a = [[input:inchang]]',
-        'depth': 0
-      }, {
-        'uuid': vue_uuid__WEBPACK_IMPORTED_MODULE_3__["uuid"].v1(),
-        'type': 'user',
-        'content': 'for i in range([[input:abc]], [[input:zxc]]):',
-        'depth': 0
-      }, {
-        'uuid': vue_uuid__WEBPACK_IMPORTED_MODULE_3__["uuid"].v1(),
-        'type': 'user',
-        'content': 'a = [[input:inchang]]',
-        'depth': 0
-      }, {
-        'uuid': vue_uuid__WEBPACK_IMPORTED_MODULE_3__["uuid"].v1(),
-        'type': 'user',
-        'content': 'a = [[input:inchang]]',
-        'depth': 0
-      }],
-      activeBlock: [{
-        'uuid': vue_uuid__WEBPACK_IMPORTED_MODULE_3__["uuid"].v1(),
-        'type': 'user',
-        'content': 'for i in range([[input:abc]], 1):',
-        'depth': 0
-      }, {
-        'uuid': vue_uuid__WEBPACK_IMPORTED_MODULE_3__["uuid"].v1(),
-        'type': 'user',
-        'content': 'for i in range([[input:abc]], [[input:zxc]]):',
-        'depth': 0
-      }, {
-        'uuid': vue_uuid__WEBPACK_IMPORTED_MODULE_3__["uuid"].v1(),
-        'type': 'user',
-        'content': 'a = 1',
-        'depth': 0
-      }, {
-        'uuid': vue_uuid__WEBPACK_IMPORTED_MODULE_3__["uuid"].v1(),
-        'type': 'user',
-        'content': 'a = [[input:inchang]]',
-        'depth': 0
-      }, {
-        'uuid': vue_uuid__WEBPACK_IMPORTED_MODULE_3__["uuid"].v1(),
-        'type': 'user',
-        'content': 'a = [[input:inchang]]',
-        'depth': 0
-      }, {
-        'uuid': vue_uuid__WEBPACK_IMPORTED_MODULE_3__["uuid"].v1(),
-        'type': 'user',
-        'content': 'a = [[input:inchang]]',
-        'depth': 0
-      }, {
-        'uuid': vue_uuid__WEBPACK_IMPORTED_MODULE_3__["uuid"].v1(),
-        'type': 'user',
-        'content': 'a = [[input:inchang]]',
-        'depth': 0
-      }, {
-        'uuid': vue_uuid__WEBPACK_IMPORTED_MODULE_3__["uuid"].v1(),
-        'type': 'user',
-        'content': 'a = [[input:inchang]]',
-        'depth': 0
-      }]
+      inactiveBlock: [],
+      activeBlock: []
     };
   },
   methods: {
@@ -2419,6 +2382,26 @@ __webpack_require__.r(__webpack_exports__);
           'depth': 1
         });
       }
+    },
+    getBlocks: function getBlocks() {
+      var self = this;
+      var blockUrl = self.question.blockUrl;
+      axios.get(blockUrl).then(function (response) {
+        var myBlocks = response.data;
+
+        for (var i = 0; i < myBlocks.length; i++) {
+          myBlocks[i]['uuid'] = vue_uuid__WEBPACK_IMPORTED_MODULE_3__["uuid"].v1();
+          myBlocks[i]['depth'] = 0;
+          myBlocks[i]['type'] = 'user';
+          myBlocks[i]['lineNumber'] = 0;
+        }
+
+        self.inactiveBlock = myBlocks;
+        console.log(self.inactiveBlock);
+        self.$forceUpdate();
+      })["catch"](function (error) {
+        console.log(error);
+      })["finally"](function () {});
     }
   }
 });
@@ -41963,7 +41946,9 @@ var render = function() {
     { staticClass: "block-item row d-inline", style: _vm.renderdStyleFirst },
     [
       _vm.block.type == "user"
-        ? _c("div", { staticClass: "col d-inline" }, [_vm._v("#")])
+        ? _c("div", { staticClass: "col d-inline" }, [
+            _vm._v(_vm._s(_vm.block.lineNumber))
+          ])
         : _vm._e(),
       _vm._v(" "),
       _c("div", {
@@ -42013,7 +41998,12 @@ var render = function() {
               return _c(
                 "li",
                 { key: block.uuid },
-                [_c("ActiveBlockComponent", { attrs: { block: block } })],
+                [
+                  _c("ActiveBlockComponent", {
+                    key: block.uuid,
+                    attrs: { block: block }
+                  })
+                ],
                 1
               )
             }),
@@ -42146,24 +42136,20 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "grading-component" }, [
     _c("div", { staticClass: "controller row no-gutters" }, [
+      _vm.currentMessage == "대기 중"
+        ? _c("div", { staticClass: "d-inline", on: { click: _vm.runGrade } }, [
+            _c("i", {
+              staticClass: "fas fa-play-circle ml-3 mt-2",
+              staticStyle: {
+                color: "green",
+                "font-size": "2.2em",
+                cursor: "pointer"
+              }
+            })
+          ])
+        : _vm._e(),
+      _vm._v(" "),
       _c("div", { staticClass: "col-auto" }, [
-        _vm.currentMessage == "대기 중"
-          ? _c(
-              "div",
-              { staticClass: "d-inline", on: { click: _vm.runGrade } },
-              [
-                _c("i", {
-                  staticClass: "fas fa-play-circle ml-3 mt-2",
-                  staticStyle: {
-                    color: "green",
-                    "font-size": "2.2em",
-                    cursor: "pointer"
-                  }
-                })
-              ]
-            )
-          : _vm._e(),
-        _vm._v(" "),
         _vm.currentMessage != "대기 중"
           ? _c("div", { staticClass: "d-inline" }, [
               _c("i", {
@@ -42270,7 +42256,11 @@ var render = function() {
     _vm._v(" "),
     _c(
       "div",
-      [_c("GradingComponent", { attrs: { blocks: _vm.activeBlock } })],
+      [
+        _c("GradingComponent", {
+          attrs: { blocks: _vm.activeBlock, question: _vm.question }
+        })
+      ],
       1
     )
   ])

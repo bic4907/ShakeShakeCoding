@@ -29,7 +29,7 @@ class EvalFileController extends Controller
          * 전달 받은 블럭 JSON과 Input을 가지고 파이썬 파일 생성
          */
         $filepath = ''; // 파일 경로 생성
-         FileTransformController::fileTransform($filepath, $request->input('blocks'), $request->input('inputs'));
+        FileTransformController::fileTransform($filepath, $request->input('blocks'), $request->input('inputs'));
 
         /**
          * 문제에 해당하는 테스트케이스를 가지고 채점시작
