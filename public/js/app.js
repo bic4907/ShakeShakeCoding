@@ -2200,6 +2200,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "GradingComponent",
   props: ['blocks'],
@@ -2220,11 +2223,13 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (response) {
         self.currentResponse = response.data;
         console.log(response);
+        self.currentMessage = '대기 중';
+        console.log('채점 완료');
       })["catch"](function (error) {
         console.log('오류가 나면서 완료됨');
         console.log(error);
       })["finally"](function () {
-        console.log('채점 완료');
+        self.currentMessage = '대기 중';
       });
     }
   }
@@ -42142,16 +42147,35 @@ var render = function() {
   return _c("div", { staticClass: "grading-component" }, [
     _c("div", { staticClass: "controller row no-gutters" }, [
       _c("div", { staticClass: "col-auto" }, [
-        _c("div", { staticClass: "d-inline", on: { click: _vm.runGrade } }, [
-          _c("i", {
-            staticClass: "fas fa-play-circle ml-3 mt-2",
-            staticStyle: {
-              color: "green",
-              "font-size": "2.2em",
-              cursor: "pointer"
-            }
-          })
-        ])
+        _vm.currentMessage == "대기 중"
+          ? _c(
+              "div",
+              { staticClass: "d-inline", on: { click: _vm.runGrade } },
+              [
+                _c("i", {
+                  staticClass: "fas fa-play-circle ml-3 mt-2",
+                  staticStyle: {
+                    color: "green",
+                    "font-size": "2.2em",
+                    cursor: "pointer"
+                  }
+                })
+              ]
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.currentMessage != "대기 중"
+          ? _c("div", { staticClass: "d-inline" }, [
+              _c("i", {
+                staticClass: "fas fa-stop-circle ml-3 mt-2",
+                staticStyle: {
+                  color: "darkred",
+                  "font-size": "2.2em",
+                  cursor: "pointer"
+                }
+              })
+            ])
+          : _vm._e()
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "col-auto" }, [
