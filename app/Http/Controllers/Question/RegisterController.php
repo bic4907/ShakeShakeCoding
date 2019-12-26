@@ -24,8 +24,7 @@ class RegisterController extends Controller
 
         $todo_code->save();
 
-        return view('question.edit', ['problem_num'=>$todo_code->id, 'description'=>$todo_code->code, 'header_title'=>'문제 만들기']);
-//        $this->editAnswer($problem_num);
+        return redirect()->route('question.edit' , ['problem_num'=>$todo_code->id, 'description'=>$todo_code->code, 'header_title'=>'문제 만들기']);
     }
 
     function editAnswer($problem_num){
