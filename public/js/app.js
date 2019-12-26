@@ -1896,7 +1896,6 @@ __webpack_require__.r(__webpack_exports__);
       };
     },
     renderdStyleSecond: function renderdStyleSecond() {
-      console.log('render!', this.block.depth);
       var height = null;
       var padding = null;
       var opacity = null;
@@ -1973,6 +1972,8 @@ __webpack_require__.r(__webpack_exports__);
       return true;
     },
     addSubBlocks: function addSubBlocks() {
+      console.log(this.blocks);
+
       for (var i = 0; i < this.blocks.length; i++) {
         if (this.blocks[i].content.startsWith('for ')) {
           this.blocks.splice(i, 0, {
@@ -2416,6 +2417,8 @@ __webpack_require__.r(__webpack_exports__);
       var self = this;
       var blockUrl = self.question.blockUrl;
       axios.get(blockUrl).then(function (response) {
+        var tmpInactive = [];
+        var tmpActive = [];
         var myBlocks = response.data;
 
         for (var i = 0; i < myBlocks.length; i++) {
@@ -2425,29 +2428,81 @@ __webpack_require__.r(__webpack_exports__);
           myBlocks[i]['lineNumber'] = 0;
 
           if (myBlocks[i]['block_type'] == 0) {
-            self.inactiveBlock.push(myBlocks[i]);
+            tmpInactive.push(myBlocks[i]);
           } else {
-            self.activeBlock.push(myBlocks[i]);
+            tmpActive.push(myBlocks[i]);
           }
         }
 
+        self.activeBlock = tmpActive;
+        self.inactiveBlock = tmpInactive;
+        self.addSubBlocks();
         self.$forceUpdate();
       })["catch"](function (error) {
         console.log(error);
-      })["finally"](function () {});
+      })["finally"](function () {}); // self.$refs.blockDispComp.renderDepth()
+      // self.$refs.blockDispComp.markNumber()
+    },
+    getChild: function getChild(name) {
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
+
+      try {
+        for (var _iterator = this.$children[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var child = _step.value;
+          if (child.$options.name == name) return child;
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+            _iterator["return"]();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
+      }
     },
     debugReceived: function debugReceived(debugInfo) {
-      console.log(debugInfo);
       $.each(this.activeBlock, function (i, e) {
         if (e.uuid != debugInfo['line']) {
           e.warnFlag = false;
           e.warnMsg = null;
         } else {
-          console.log('found!', i);
           e.warnFlag = true;
           e.warnMsg = debugInfo['message'];
         }
       });
+    },
+    addSubBlocks: function addSubBlocks() {
+      console.log(this.activeBlock);
+
+      for (var i = 0; i < this.activeBlock.length; i++) {
+        if (this.activeBlock[i].content.startsWith('for ')) {
+          this.activeBlock.splice(i, 0, {
+            'uuid': vue_uuid__WEBPACK_IMPORTED_MODULE_3__["uuid"].v1(),
+            'type': 'begin-for',
+            'content': 'begin-for',
+            'depth': this.activeBlock[i].depth
+          });
+          i++;
+        }
+
+        if (i + 1 <= this.activeBlock.length && this.activeBlock[i].content.startsWith('for ') && this.activeBlock[i].content.depth == this.activeBlock[i + 1].content.depth) {
+          this.activeBlock.splice(i + 1, 0, {
+            'uuid': vue_uuid__WEBPACK_IMPORTED_MODULE_3__["uuid"].v1(),
+            'type': 'end-for',
+            'content': 'end-for',
+            'depth': this.activeBlock[i].depth
+          });
+          i++;
+        }
+      }
     }
   }
 });

@@ -69,6 +69,10 @@
 
                 axios.get(blockUrl)
                     .then(function (response) {
+
+                        var tmpInactive = [];
+                        var tmpActive = [];
+
                         var myBlocks = response.data;
 
                         for(var i = 0; i < myBlocks.length; i++) {
@@ -78,12 +82,16 @@
                             myBlocks[i]['lineNumber'] = 0;
 
                             if(myBlocks[i]['block_type'] == 0) {
-                                self.inactiveBlock.push(myBlocks[i])
+                                tmpInactive.push(myBlocks[i])
                             } else {
-                                self.activeBlock.push(myBlocks[i])
+                                tmpActive.push(myBlocks[i])
                             }
-
                         }
+
+                        self.activeBlock = tmpActive;
+                        self.inactiveBlock = tmpInactive;
+
+                        self.addSubBlocks()
 
                         self.$forceUpdate();
                     })
@@ -92,22 +100,51 @@
                     })
                     .finally(function () {
                     });
+
+                // self.$refs.blockDispComp.renderDepth()
+                // self.$refs.blockDispComp.markNumber()
+            },
+            getChild(name) {
+                for(let child of this.$children) if (child.$options.name==name) return child;
             },
             debugReceived: function(debugInfo) {
-                console.log(debugInfo)
-
                 $.each(this.activeBlock, function(i, e) {
                     if(e.uuid != debugInfo['line']) {
                         e.warnFlag = false;
                         e.warnMsg = null;
                     } else {
-                        console.log('found!', i);
                         e.warnFlag = true;
                         e.warnMsg = debugInfo['message'];
                     }
                 })
 
-            }
+            },
+            addSubBlocks: function() {
+                console.log(this.activeBlock);
+                for(var i = 0; i < this.activeBlock.length; i++) {
+
+                    if(this.activeBlock[i].content.startsWith('for ')) {
+                        this.activeBlock.splice(i, 0,
+                            {'uuid': uuid.v1(), 'type': 'begin-for', 'content':'begin-for', 'depth':this.activeBlock[i].depth}
+                        );
+                        i++;
+                    }
+
+                    if(
+                        i + 1 <= this.activeBlock.length &&
+                        this.activeBlock[i].content.startsWith('for ') &&
+                        this.activeBlock[i].content.depth == this.activeBlock[i + 1].content.depth
+                    ) {
+
+                        this.activeBlock.splice(i + 1, 0,
+                            {'uuid': uuid.v1(), 'type': 'end-for', 'content':'end-for', 'depth':this.activeBlock[i].depth}
+                        );
+                        i++;
+
+                    }
+
+                }
+            },
         }
     }
 

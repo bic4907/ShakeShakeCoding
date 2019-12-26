@@ -131,16 +131,11 @@ class EvalFileController extends Controller
     {
         $errorMsg = '프로그램 실행이 안되는 오류입니다.';
 
-        preg_match( "/line [0-999]/", $error,$errorLine);
-
         preg_match("/NameError/", $error, $errorTypeName);
         preg_match("/ZeroDivisionError/", $error, $errorTypeZeroDiv);
         preg_match("/SyntaxError/", $error, $errorTypeSyntax);
         preg_match("/TypeError/", $error, $errorTypeErr);
         preg_match("/AttributeError/", $error, $errorTypeAttrErr);
-
-
-        $errorMsg = $errorMsg.$errorLine[0].'에 오류가 있습니다.';
 
         if($errorTypeName)
         {
