@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\MyPage;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Submission\EvalFileController;
 use App\Question;
 use App\Submission;
 use App\TestCase;
