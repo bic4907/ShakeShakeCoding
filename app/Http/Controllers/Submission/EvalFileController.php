@@ -14,7 +14,7 @@ use Symfony\Component\Process\Process;
 
 class EvalFileController extends Controller
 {
-    public function grade($question_num, Request $request) {
+    public function grade($question_num, $submission_num, Request $request) {
 
         /**
          * 제출된 파일 모델 생성
@@ -29,26 +29,29 @@ class EvalFileController extends Controller
          * 전달 받은 블럭 JSON과 Input을 가지고 파이썬 파일 생성
          */
         $filepath = ''; // 파일 경로 생성
-         FileTransformController::fileTransform($filepath, $request->input('blocks'), $request->input('inputs'));
+        FileTransformController::fileTransform($submissionFile, $filepath, $request->input('blocks'));
 
         /**
          * 문제에 해당하는 테스트케이스를 가지고 채점시작
          */
 
-        $result = $this->evaluate($question_num, $filepath);
+        $result = $this->evaluate($submission_num, $filepath);
+
+        $submissionFile->save();
 
         return $result;
     }
 
 
-    public function evaluate($question_num, string $filepath)
+    public function evaluate($submission_num, string $filepath)
     {
-        $testCases = TestCase::where($submissionFile->question_id, 'question_id')->get();
-        $submission = Submission::where($submissionFile->submission_id,'id')->first();
+        $submission = Submission::where($submission_num,'id')->first();
+        $testCases = TestCase::where($submission->question_id, 'question_id')->get();
+        $submissionFile = SubmissionFile::where($submission_num, 'submission_id')->first();
 
         foreach($testCases as $testCase)
         {
-            $command = "python /home/vagrant/code/storage/app/".$submissionFile->uuid.'.py';
+            $command = "python ".$filepath.$submissionFile->uuid.'.py';
             $process = new Process($command);
             $process->setInput($testCase->input);
             $process->run();
@@ -63,5 +66,8 @@ class EvalFileController extends Controller
                 $submission->save();
             }
         }
+
+        return;
     }
+
 }

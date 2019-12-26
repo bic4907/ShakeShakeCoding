@@ -3,26 +3,22 @@
 namespace App\Http\Controllers\Submission;
 
 use App\Http\Controllers\Controller;
-use App\SubmissionFile;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Ramsey\Uuid\Uuid;
 
 class FileTransformController extends Controller
 {
-    static public function fileTransform($blocks, $inputs)
+    static public function fileTransform($submissionFile, $filepath, $blocks)
     {
         //$path = $request->input('blocks'); // json 갖고오기
-        $arrays = json_decode(file_get_contents(base_path($path)), true);
+        $blockArrays = json_decode($blocks, true);
 
         $contents = '';
 
-        foreach($arrays as $array) // blocks 돌면서 parse
+        foreach($blockArrays as $blockArray) // blocks 돌면서 parse
         {
-            $content = $array['content'];
-            $depth = $array['depth'];
-            $type = $array['type'];
+            $content = $blockArray['content'];
+            $depth = $blockArray['depth'];
+            $type = $blockArray['type'];
             $checkFor = substr($content,0,3); // for type check 용도
 
             if($type == "end-for" || $type == "begin-for") // 무시할 것들
@@ -53,12 +49,7 @@ class FileTransformController extends Controller
             } // for 문일때, check 후 해당 depth 에 pass 추가
         }
 
-
-        Storage::disk('local')->put($submissionFile->uuid.'.py' , $contents); // py 파일 생성
-
-        $submissionFile->save();
-
-        // dd($contents);
+        Storage::disk('local')->put($filepath.$submissionFile->uuid.'.py' , $contents); // py 파일 생성
 
     }
 }
