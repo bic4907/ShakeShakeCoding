@@ -69,9 +69,9 @@
         <div class="col-sm-4 mx-auto text-center">
             <hr class="mt-5 mt-2">
             <span class="mr-1">아직 회원이 아니신가요?</span>
-{{--            <a href="{{ route('register') }}">--}}
-{{--                회원가입--}}
-{{--            </a>--}}
+            <a href="{{ route('register') }}">
+                회원가입
+            </a>
         </div>
     </div>
 

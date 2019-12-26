@@ -19,13 +19,16 @@ class UsersTableSeeder extends Seeder
         $users = factory(User::class, 40)->create();
         foreach($users as $user){
             if($user->usertype == UserType::Professor){
-                $question = factory(Question::class, 1)->create(['professor_id'=>$user->id]);
+                $questions = factory(Question::class, 1)->create(['professor_id'=>$user->id]);
 
                 $students = User::where('usertype',UserType::Student)->get();
-                foreach($students as $student){
-                    factory(Submission::class, 1)->create(['question_id'=>$question->id, 'student_id'=> $student->id]);
+                foreach($questions as $question){
+                    foreach($students as $student){
+                        factory(Submission::class, 1)->create(['question_id'=>$question->id, 'student_id'=> $student->id]);
+                    }
                 }
             }
         }
+
     }
 }
