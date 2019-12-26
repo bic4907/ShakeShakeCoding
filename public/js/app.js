@@ -2496,6 +2496,15 @@ __webpack_require__.r(__webpack_exports__);
           e.forMsg = null;
         }
       });
+      $.each(this.inactiveBlock, function (i, e) {
+        if (e.content.startsWith('for ')) {
+          e.forFlag = true;
+          e.forMsg = "for i in range(a,b): (a부터 b까지 i에 대입하며 반복)";
+        } else {
+          e.forFlag = false;
+          e.forMsg = null;
+        }
+      });
     },
     addSubBlocks: function addSubBlocks() {
       console.log(this.activeBlock);
@@ -42364,11 +42373,6 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "block-item row d-inline" }, [
-    _c("div", {
-      staticClass: "col d-inline block-inline",
-      domProps: { innerHTML: _vm._s(_vm.renderdContent) }
-    }),
-    _vm._v(" "),
     _c(
       "div",
       {
@@ -42383,7 +42387,12 @@ var render = function() {
         attrs: { title: _vm.block.forMsg }
       },
       [_c("i", { staticClass: "fas fa-question-circle-o" })]
-    )
+    ),
+    _vm._v(" "),
+    _c("div", {
+      staticClass: "col d-inline block-inline",
+      domProps: { innerHTML: _vm._s(_vm.renderdContent) }
+    })
   ])
 }
 var staticRenderFns = []

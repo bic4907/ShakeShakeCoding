@@ -129,6 +129,15 @@
                         e.forMsg = null;
                     }
                 })
+                $.each(this.inactiveBlock, function(i, e) {
+                    if(e.content.startsWith('for ')) {
+                        e.forFlag = true;
+                        e.forMsg = "for i in range(a,b): (a부터 b까지 i에 대입하며 반복)";
+                    } else {
+                        e.forFlag = false;
+                        e.forMsg = null;
+                    }
+                })
             },
             addSubBlocks: function() {
                 console.log(this.activeBlock);
