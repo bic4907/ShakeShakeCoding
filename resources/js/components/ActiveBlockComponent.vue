@@ -10,15 +10,6 @@
     export default {
         name: "ActiveBlockComponent",
         props: ['block'],
-        // mounted: function() {
-        //     var self = this;
-        //     setInterval(function() {
-        //         console.log('hi');
-        //         self.$forceUpdate();
-        //         self.block.depth = 0;
-        //         self.block.depth = 1;
-        //     }, 1000)
-        // },
         computed: {
             renderdContent: function() {
                 var html = this.block.content

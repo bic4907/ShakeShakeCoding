@@ -9,9 +9,10 @@ class FileTransformController extends Controller
 {
     static public function fileTransform($submissionFile, $filepath , $blocks)
     {
-        //$path = $request->input('blocks'); // json 갖고오기
-        $json = file_get_contents("/home/vagrant/code/storage/app/testJson.json");
-        $blockArrays = json_decode($json, true);
+        if($blocks != null)
+            $blockArrays = $blocks;
+        else return 0;
+
 
         $contents = '';
 
@@ -43,7 +44,7 @@ class FileTransformController extends Controller
         }
 
             //dd($contents);
-        Storage::disk('local')->put($submissionFile->uuid.'.py' , $contents); // py 파일 생성
+        Storage::disk('local')->put("file/".$submissionFile->uuid.'.py' , $contents); // py 파일 생성
 
     }
 }

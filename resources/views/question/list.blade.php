@@ -19,7 +19,7 @@
             </br>
             @endif
             @foreach($questions as $question)
-                <a href="{{route('question.view', ['question_id' => $question->id])}}" class="list-group-item list-group-item-action flex-column align-items-start">
+                <a href="{{route('submission.create', ['question_num' => $question->id])}}" class="list-group-item list-group-item-action flex-column align-items-start">
                     <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-1">{{$question->id}}</h5>
                         <small class="font-italic">@ {{ $question->created_at }}</small>
