@@ -11,16 +11,9 @@ use Ramsey\Uuid\Uuid;
 
 class FileTransformController extends Controller
 {
-    public function fileTransform(Request $request)
+    static public function fileTransform($blocks, $inputs)
     {
-        $submissionFile = new SubmissionFile();
-
-        $user = Auth::user();
-        $submissionFile->uuid = Uuid::uuid4();
-        $submissionFile->user_id = $user->user_id;
-        $submissionFile->question_id = $request->question_id;
-
-        $path = 'resources/json_test.json'; // json 갖고오기
+        //$path = $request->input('blocks'); // json 갖고오기
         $arrays = json_decode(file_get_contents(base_path($path)), true);
 
         $contents = '';
