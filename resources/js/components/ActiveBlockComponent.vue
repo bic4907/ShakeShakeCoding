@@ -57,14 +57,12 @@
                 }
             },
             renderdStyleSecond: function() {
-                console.log('render!', this.block.depth)
+
                 var height = null;
                 var padding = null;
                 var opacity = null;
                 var fontsize = null;
                 var margin = null;
-
-
 
                 if(this.block.type == 'end-for' || this.block.type =='begin-for') {
                     height = 0;

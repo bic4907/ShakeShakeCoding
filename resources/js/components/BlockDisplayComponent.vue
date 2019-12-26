@@ -38,7 +38,7 @@
                 return true;
             },
             addSubBlocks: function() {
-
+                console.log(this.blocks);
                 for(var i = 0; i < this.blocks.length; i++) {
 
                     if(this.blocks[i].content.startsWith('for ')) {
