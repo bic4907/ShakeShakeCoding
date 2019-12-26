@@ -1849,15 +1849,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ActiveBlockComponent",
   props: ['block'],
-  // mounted: function() {
-  //     var self = this;
-  //     setInterval(function() {
-  //         console.log('hi');
-  //         self.$forceUpdate();
-  //         self.block.depth = 0;
-  //         self.block.depth = 1;
-  //     }, 1000)
-  // },
   computed: {
     renderdContent: function renderdContent() {
       var html = this.block.content;
@@ -2080,7 +2071,6 @@ __webpack_require__.r(__webpack_exports__);
       var depth = 0;
 
       for (var i = 0; i < this.blocks.length; i++) {
-        console.log(i, this.blocks[i]);
         var flag = false;
         this.blocks[i].depth = depth;
 
@@ -2221,23 +2211,29 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "GradingComponent",
   props: ['blocks', 'question'],
   data: function data() {
     return {
       currentMessage: '대기 중',
-      currentResponse: '...'
+      currentResponse: ''
     };
   },
   methods: {
     runGrade: function runGrade() {
       var self = this;
+      var convertedBlocks = this.gatherInputs(self.blocks);
       console.log('채점 시작');
       this.currentMessage = '채점 중';
       var gradingUrl = self.question.gradingUrl;
+      self.currentResponse = [];
       axios.post(gradingUrl, {
-        blocks: this.blocks
+        blocks: convertedBlocks
       }).then(function (response) {
         self.currentResponse = response.data;
         console.log(response);
@@ -2245,11 +2241,33 @@ __webpack_require__.r(__webpack_exports__);
         console.log('채점 완료');
       })["catch"](function (error) {
         console.log('오류가 나면서 완료됨');
-        self.currentMessage = error;
+        self.currentResponse = [error.toString()];
         console.log(error);
       })["finally"](function () {
         self.currentMessage = '대기 중';
       });
+    },
+    gatherInputs: function gatherInputs(blocks) {
+      var newBlocks = [];
+      var regexp = '\[\[input:.[a-zA-Z]+\]\]';
+      $.each(blocks, function (i, block) {
+        var copyBlock = {};
+        copyBlock.content = block.content;
+        copyBlock.type = block.type;
+        copyBlock.depth = block.depth;
+
+        while (copyBlock.content.match(regexp) != null) {
+          var found = copyBlock.content.match(regexp);
+          var target = found[0];
+          var uid = target.substr(8, target.length - 10);
+          var origin = '[[input:' + uid + ']]';
+          var dest = $('input[data-uid=' + uid + ']').val() ? $('input[data-uid=' + uid + ']').val() : '';
+          copyBlock.content = copyBlock.content.replace(origin, dest);
+        }
+
+        newBlocks.push(copyBlock);
+      });
+      return newBlocks;
     }
   }
 });
@@ -42171,9 +42189,18 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "resultDisplay" }, [
-      _vm._v("\n        " + _vm._s(_vm.currentResponse) + "\n    ")
-    ])
+    _c(
+      "div",
+      { staticClass: "resultDisplay" },
+      _vm._l(_vm.currentResponse, function(line) {
+        return _c("div", [
+          _c("div", { staticClass: "row no-gutters" }, [
+            _c("div", { staticClass: "col ml-2" }, [_vm._v(_vm._s(line))])
+          ])
+        ])
+      }),
+      0
+    )
   ])
 }
 var staticRenderFns = []

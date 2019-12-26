@@ -180,8 +180,6 @@
                 var depth = 0;
                 for(var i = 0; i < this.blocks.length; i++) {
 
-                    console.log(i, this.blocks[i]);
-
                     var flag = false;
 
                     this.blocks[i].depth = depth;
