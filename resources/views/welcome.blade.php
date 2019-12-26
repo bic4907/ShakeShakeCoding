@@ -36,15 +36,6 @@
         <div class="mt-3 lead">
             누구든지 코딩할 수 있습니다.
         </div>
-        <div class="mt-5">
-            @auth
-                @if(Auth::user()->usertype == App\Enums\UserType::Professor)
-{{--            <a href="{{route('question.add')}}"><button type="button" class="btn btn-outline-secondary">대회 주최하기</button></a>--}}
-                @else
-            <a href="{{route('question.list')}}"><button type="button" class="btn btn-secondary">대회 참가하기</button></a>
-                    @endif
-                @endauth
-        </div>
     </div>
 
 @endsection
