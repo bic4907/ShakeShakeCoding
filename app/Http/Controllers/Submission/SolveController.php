@@ -53,9 +53,10 @@ class SolveController extends Controller
         );
 
 
+
         return view('question.solve', [
             'question'=>$question,
-            'submission'=>$submission
+            'submission'=>$submission,
         ]);
     }
 

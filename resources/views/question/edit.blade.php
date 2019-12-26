@@ -85,49 +85,13 @@
                     url: "/question/edit/{{$problem_num}}",
                     data: param,
                     success: function (data) {
+                        window.location.href =  "/question/list";
                     },
                     error: function (xhr, status, error) {
                         alert(error);
                     }
                 });
             }
-            {{--function blink_button() {--}}
-                {{--    var param = {--}}
-                {{--        blink: wfSel.getTEXT()--}}
-                {{--    }--}}
-                {{--    console.log(param)--}}
-                {{--    $.ajax({--}}
-                {{--        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},--}}
-                {{--        type: "POST",--}}
-                {{--        url: "/create/{{$problem_num}}",--}}
-                {{--        data: param,--}}
-                {{--        success: function (data) {--}}
-                {{--            wfSel.replace('[[input:' + randomString() + ']]');--}}
-                {{--        },--}}
-                {{--        error: function (xhr, status, error) {--}}
-                {{--            alert(error);--}}
-                {{--        }--}}
-                {{--    });--}}
-                {{--}--}}
-
-                {{--function block_button() {--}}
-                {{--    var param = {--}}
-                {{--        block: wfSel.getTEXT()--}}
-                {{--    }--}}
-                {{--    console.log(param)--}}
-                {{--    $.ajax({--}}
-                {{--        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},--}}
-                {{--        type: "POST",--}}
-                {{--        url: "/create/{{$problem_num}}",--}}
-                {{--        data: param,--}}
-                {{--        success: function (data) {--}}
-                {{--            wfSel.replace('{' + param.block + '}');--}}
-                {{--        },--}}
-                {{--        error: function (xhr, status, error) {--}}
-                {{--            alert(error);--}}
-                {{--        }--}}
-                {{--    });--}}
-                {{--}--}}
 
                 wfSel = {};
             (function (_self) {

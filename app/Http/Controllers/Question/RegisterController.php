@@ -11,27 +11,24 @@ use Illuminate\Support\Facades\Auth;
 
 class RegisterController extends Controller
 {
-    function show($problem_num) {
-        return view('question/add', ['problem_num' => $problem_num, 'header_title'=>'문제 출제']
+    function show() {
+        return view('question/add', ['header_title'=>'문제 출제']
         );
     }
 
-    public function add($problem_num, Request $request)
+    public function add(Request $request)
     {
         $todo_code = new Question();
-        $todo_code->id = $problem_num;
         $todo_code->code = $request->text;
         $todo_code->professor_id = Auth::user()->id;
 
         $todo_code->save();
 
-        return view('question.edit', ['problem_num'=>$problem_num, 'description'=>$todo_code->code]);
-//        $this->editAnswer($problem_num);
+        return json_encode(array('problem_num'=>$todo_code->id));
     }
 
     function editAnswer($problem_num){
         $description = Question::where('id', $problem_num)->select('code')->first();
-//        echo($description->code);
         return view('question.edit', ['problem_num'=>$problem_num, 'description'=>$description->code, 'header_title'=>'문제 만들기']);
     }
 
@@ -43,8 +40,6 @@ class RegisterController extends Controller
             $result[$i] = substr($result[$i], 4);
 
             if(strlen($result[$i])>0) {
-//                echo('block = ' . $result[$i] . ' size = ' . strlen($result[$i]) . '<br>');
-
                 $todo_block = new Block();
                 $todo_block->question_id = $problem_num;
                 $todo_block->type = '0';
