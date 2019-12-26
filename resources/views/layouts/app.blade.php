@@ -94,9 +94,9 @@
                         Sejong University
                     </p>
                     <p>
-                        <a href="mailto:webmaster@gist-leaderboard.com">
+                        <a href="mailto:jaewoo45@sju.ac.kr">
                             <i class="fas fa-envelope"></i>
-                            <span class="font-italic">ShakeShakeCoding@gmail.com</span>
+                            <span class="font-italic">jaewoo45@sju.ac.kr</span>
                         </a>
                     </p>
                 </div>

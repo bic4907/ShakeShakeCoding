@@ -12,6 +12,8 @@
 */
 
 use Illuminate\Support\Facades\Route;
+use function foo\func;
+
 
 Route::get('/login', function (){
     return view('/auth/login');
@@ -33,13 +35,18 @@ Route::get('/', function () {
 })->name('home');
 
 
-Route::group(['prefix' => 'question'],function(){
+Route::group(['middleware' => 'permit:Professor,Student', 'prefix' => 'question'],function(){
+    Route::get('/add/{problem_num}', 'Question\RegisterController@show')->name('question.add');
+    Route::post('/add/{problem_num}', 'Question\RegisterController@add')->name('question.add.post');
+    Route::get('/edit/{problem_num}', 'Question\RegisterController@editAnswer')->name('question.edit');
+    Route::post('/edit/{problem_num}', 'Question\RegisterController@addBlinkBlock')->name('question.edit.post');
+
     Route::get('/list', 'Question\ListController@showList')->name('question.list');
     Route::get('/{question_num}', 'Question\ViewerController@show')->name('question.view');
 });
 
 
-Route::group(['prefix' => 'mypage'], function() {
+Route::group(['middleware' => 'permit:Professor,Student', 'prefix' => 'mypage'], function() {
     Route::get('/', 'Auth\MypageController@show')->name('mypage');
     Route::get('/question', 'MyPage\ProfessorController@showList')->name('mypage.question.list');
     Route::get('/submission', 'MyPage\StudentController@showList')->name('mypage.submission.list');

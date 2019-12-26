@@ -24,7 +24,7 @@ class CheckPermission
         foreach ($roles as $role)
         {
             if($request ->user()->
-                permission == $role) //허용한 권한인 경우
+                usertype == $role) //허용한 권한인 경우
             {
                 return $next($request); //승인
             }

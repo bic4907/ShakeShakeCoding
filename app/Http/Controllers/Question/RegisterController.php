@@ -1,28 +1,42 @@
 <?php
 
-namespace App\Http\Controllers\Problem;
+namespace App\Http\Controllers\Question;
 
 use App\Block;
-use App\Enums\BlockType;
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Exceptions\WrongPathException;
 use App\Question;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
-class CreateController extends Controller
+class RegisterController extends Controller
 {
-    function inputAnswer($problem_num, Request $request){
-                echo($request->text);
-
-//        $description = Question::where('id', $problem_num)->select('code')->first();
+    function show($problem_num) {
+        return view('question/add', ['problem_num' => $problem_num, 'header_title'=>'문제 출제']
+        );
     }
 
-    function showAnswer($problem_num){
+    public function add($problem_num, Request $request)
+    {
+        $todo_code = new Question();
+        $todo_code->id = $problem_num;
+        $todo_code->code = $request->text;
+        $todo_code->professor_id = Auth::user()->id;
+
+        $todo_code->save();
+
+        return view('question.edit', ['problem_num'=>$problem_num, 'description'=>$todo_code->code]);
+//        $this->editAnswer($problem_num);
+    }
+
+    function editAnswer($problem_num){
         $description = Question::where('id', $problem_num)->select('code')->first();
-        return view('question/create', ['problem_num'=>$problem_num, 'description'=>$description->code]);
+//        echo($description->code);
+        return view('question.edit', ['problem_num'=>$problem_num, 'description'=>$description->code, 'header_title'=>'문제 만들기']);
     }
 
     function addBlinkBlock($problem_num, Request $request){
-
+        $request->text = str_replace('&nbsp;', ' ', $request->text);
         $temp = explode('!!]]', $request->text);
         for($i=0;$i<sizeof($temp);$i++){
             $result[$i] = strstr($temp[$i], '[[!!');
@@ -51,9 +65,7 @@ class CreateController extends Controller
 
         for($i=0;$i<sizeof($block);$i++){
             if(strlen($block[$i])>1) {
-
 //                echo('blink = '.ltrim($block[$i]).' size = '.strlen($block[$i]).'<br>');
-
                 $todo_block = new Block();
                 $todo_block->question_id = $problem_num;
                 $todo_block->type = '1';

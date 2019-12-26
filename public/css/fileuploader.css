@@ -1,0 +1,120 @@
+.file-uploader {
+    border:1px solid #DFDFDF;
+    border-radius:.25rem;
+}
+
+.file-uploader .fu__navbar {
+    width:100%;
+    border-radius:.25rem .25rem 0 0;
+    background:#F7F7F7;
+    border-bottom:1px solid #DFDFDF;
+}
+.file-uploader .fu__text-bar {
+    padding: .75rem 1.25rem;
+
+}
+.file-uploader .fu__navbar,
+.file-uploader .fu__text-bar {
+    height:50px;
+    line-height:50px;
+}
+.file-uploader .fu__content,
+.file-uploader .fu__content .f_list,
+.file-uploader .fu__content .f_info {
+    height:200px;
+}
+.file-uploader .fu__content .f_list,
+.file-uploader .fu__content .f_info {
+    overflow-y:auto;
+}
+.file-uploader .fu__content .f_list {
+    border-right:1px solid #DFDFDF;
+}
+.file-uploader .fu__content .f_info {
+
+}
+.file-uploader .fu__content ul {
+    list-style:none;
+    padding:0;
+    margin:0;
+    overflow-y:auto;
+}
+.file-uploader .fu__content ul li {
+    border-bottom:1px solid #DFDFDF;
+    line-height:30px;
+    padding:0 15px;
+    color:#2F363C;
+    cursor:pointer;
+    font-size:14px;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+}
+
+.file-uploader .fu__content ul li:last-child { border-bottom: 0; }
+.file-uploader .fu__content ul li:hover {
+    background: #F8F9FA;
+}
+.file-uploader .fu__content ul li.uploading {
+    color: #DFDFDF;
+}
+.file-uploader .fu__content ul li.uploading .progress-bar {
+    width:0%;
+    height:1px;
+    background:#8FC4FD;
+    margin-left:-15px;
+    margin-top:-1px;
+    position:absolute;
+}
+.file-uploader .fu__content ul li .list__icon {
+    width:30px;
+    text-align: center;
+    color: #DFDFDF;
+}
+.file-uploader .fu__content .f_info .f_info_header {
+    border-bottom:1px solid #DFDFDF;
+    background: #F8F9FA;
+    padding:10px;
+}
+.file-uploader .fu__content .f_info .f_info_header .f_title {
+    height:20px;
+    line-height:20px;
+    margin:5px 0;
+    font-size:16px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+.file-uploader .fu__content .f_info .f_info_header table {
+    font-size:13px;
+}
+.file-uploader .f__submenu {
+    width: 150px;
+    float: right;
+    position: absolute;
+    z-index: 999;
+    background: white;
+    border: 1px solid #DFDFDF;
+    border-radius: 5px;
+    margin-top: -20px;
+    display:none;
+    font-size:0.9em;
+
+    right:-15px;
+    top: 50px;
+}
+.file-uploader .f__submenu .dropdown-item {
+    cursor:pointer;
+    line-height: 34px;
+}
+.file-uploader .f__submenu .dropdown-item:not(:last-child) {
+}
+.file-uploader .f__contextMenu {
+    position: absolute;
+    background: white;
+    border: 1px solid #DFDFDF;
+    font-size:0.9em;
+    right:0;
+}
+.file-uploader .f__contextMenu .dropdown-item { cursor:pointer;line-height:1.2em; }
