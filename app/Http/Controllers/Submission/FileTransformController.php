@@ -60,6 +60,7 @@ class FileTransformController extends Controller
         }
 
             //dd($contents);
+
         Storage::disk('local')->put("file/".$submissionFile->uuid.'.py' , $contents); // py 파일 생성
         Storage::disk('local')->put("file/".$submissionFile->uuid.'.debug' , json_encode($debugInfo)); // debug 파일 생성
 

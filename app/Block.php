@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Block extends Model
 {
     protected $fillable = [
-        'type', 'content', 'question_id',
+        'type', 'content', 'question_id', 'sequence',
     ];
 }

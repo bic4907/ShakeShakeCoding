@@ -64,10 +64,25 @@ class ProfessorController extends Controller
         return $correctSubmissionsCount;
     }
 
-    public function getStudentCount($question_id)
+    static public function getStudentCount($question_id)
     {
         $studentCount = Submission::where('question_id','=',$question_id)->distinct('student_id')->count();
         return $studentCount;
+    }
+
+    static public function getStudentList($question_id){
+        $studentList = Submission::where('question_id', $question_id)->distinct('student_id')->select('student_id')->get();
+        return $studentList;
+    }
+    static public function getStudentSubmissionCount($question_id, $student_id){
+        $submissionCount = Submission::where('question_id', $question_id)->where('student_id', $student_id)->count();
+        return $submissionCount;
+    }
+
+    static public function getStudentCorrectSubmission($question_id, $student_id){
+        $correctSubmission = Submission::where('question_id', $question_id)->where('isCorrect', true)->where('student_id', $student_id)
+            ->get('isCorrect');
+        return $correctSubmission;
     }
 
     public function paginate($items, $perPage = 10, $page = null, $options = [])

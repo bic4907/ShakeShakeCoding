@@ -65,10 +65,15 @@ class EvalFileController extends Controller
 
         foreach($testCases as $testCase)
         {
-            $command = "python ".$filepath.$submissionFile->uuid.'.py';
+            $command = "python3 ".$filepath.$submissionFile->uuid.'.py';
             $process = new Process($command);
             $process->setInput($testCase->input);
+            $process->setTimeout(5);
             $process->run();
+
+
+            $testCaseOutput = str_replace("\\r", "", $testCase->output);
+
 
             if (!$process->isSuccessful()) {
                 $error = $process->getErrorOutput();
@@ -82,50 +87,88 @@ class EvalFileController extends Controller
                  * 디버그 정보를 읽어서 라인에 표시를 해주어야함
                  */
                 $targetRow = null;
-                foreach($errorArr as $row) {
+                foreach ($errorArr as $row) {
                     $isFound = false;
 
                     $searchIndex = strpos($row, "line ");
-                    if($searchIndex != false) {
+                    if ($searchIndex != false) {
                         $isFound = true;
 
                         $iterPos = $searchIndex + 5; // 숫자찾기 시작지점
 
                         $numStr = '';
-                        while($row[$iterPos] >= '0' and $row[$iterPos] <= '9') {
+                        while ($row[$iterPos] >= '0' and $row[$iterPos] <= '9') {
 
                             $numStr .= $row[$iterPos];
                             $iterPos++;
                         }
 
 
-
-                        $debugInfo = json_decode(Storage::disk('local')->get("file/".$submissionFile->uuid.'.debug'), true);
+                        $debugInfo = json_decode(Storage::disk('local')->get("file/" . $submissionFile->uuid . '.debug'), true);
                         $gradeResult['debug']['line'] = $debugInfo[intval($numStr)];
-                        $gradeResult['debug']['message'] = '메세지는 여기에 적어주세요';
-
+                        $gradeResult['debug']['message'] = $this->makeErrorMessage($error);;
 
                     }
 
-                    if($isFound) break;
+                    if ($isFound) break;
                 }
 
+            } else if (trim($process->getOutput()) != trim($testCaseOutput)) {
+                    $submission->isCorrect = 0;
+                    $submission->save();
+                    $errorMsg = '실행은 되었으나 잘못된 값이 나왔습니다.';
+                    $errorMsg = $errorMsg . '올바른 값 : ' . $testCaseOutput . '프래그램 실행 값 : ' . $process->getOutput();
+                    return $errorMsg;
 
-
-
-            } else if($process->getOutput() != $testCase->output) {
-                $submission->isCorrect = 0;
-                $submission->save();
-
-                array_push($gradeResult['log'], '오답입니다!');
-                array_push($gradeResult['log'], "Correct Output:\n".$testCase->output);
-                array_push($gradeResult['log'], "User Output:\n".$process->getOutput());
-            } else {
-                array_push($gradeResult['log'], '정답입니다!');
+                    array_push($gradeResult['log'], '오답입니다!');
+                    array_push($gradeResult['log'], "Correct Output:\n" . $testCase->output);
+                    array_push($gradeResult['log'], "User Output:\n" . $process->getOutput());
+                } else {
+                    array_push($gradeResult['log'], '정답입니다!');
+                }
             }
+        return $gradeResult;
+    }
+
+
+    public function makeErrorMessage($error)
+    {
+        $errorMsg = '프로그램 실행이 안되는 오류입니다.';
+
+        preg_match( "/line [0-999]/", $error,$errorLine);
+
+        preg_match("/NameError/", $error, $errorTypeName);
+        preg_match("/ZeroDivisionError/", $error, $errorTypeZeroDiv);
+        preg_match("/SyntaxError/", $error, $errorTypeSyntax);
+        preg_match("/TypeError/", $error, $errorTypeErr);
+        preg_match("/AttributeError/", $error, $errorTypeAttrErr);
+
+
+        $errorMsg = $errorMsg.$errorLine[0].'에 오류가 있습니다.';
+
+        if($errorTypeName)
+        {
+            preg_match("/name \'(.*)\'/", $error, $errorName);
+            $errorMsg = $errorMsg.$errorName[0].'변수 선언이 제대로 됐는지 확인하세요.';
+        }
+        else if($errorTypeZeroDiv)
+        {
+            $errorMsg = $errorMsg.'0으로 수를 나눌 수 없습니다.';
+        }
+        else if($errorTypeSyntax)
+        {
+            $errorMsg = $errorMsg.'문법을 확인하세요.';
+        }
+        else if($errorTypeErr)
+        {
+            $errorMsg = $errorMsg.'숫자와 문자를 혼용하여 썼네요. 자료형을 확인해주세요.';
+        }
+        else if($errorTypeAttrErr)
+        {
+            $errorMsg = $errorMsg.'배열 속성이름, 모듈 이름이 잘못되었습니다.';
         }
 
-        return $gradeResult;
+        return $errorMsg;
     }
 
 }

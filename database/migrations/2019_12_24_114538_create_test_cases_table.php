@@ -17,7 +17,7 @@ class CreateTestCasesTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('question_id');
             $table->foreign('question_id')->references('id')->on('questions');
-            $table->string('input');
+            $table->string('input')->nullable();
             $table->string('output');
             $table->timestamps();
         });

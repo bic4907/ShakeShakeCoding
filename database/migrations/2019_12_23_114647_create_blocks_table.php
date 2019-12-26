@@ -18,6 +18,7 @@ class CreateBlocksTable extends Migration
             $table->bigIncrements('id');
             $table->enum('type', [BlockType::Block, BlockType::Input]);
             $table->text('content');
+            $table->integer('sequence')->nullable();
             $table->unsignedBigInteger('question_id');
             $table->foreign('question_id')->references('id')->on('questions');
             $table->timestamps();
