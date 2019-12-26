@@ -57,19 +57,18 @@ class EvalFileController extends Controller
         $submission = Submission::where('id',$submission_num)->first();
         $testCases = TestCase::where( 'question_id',$submission->question_id)->get();
         $submissionFile = SubmissionFile::where('submission_id',$submission_num)->first();
-        $errorMsg = array();
 
         foreach($testCases as $testCase)
         {
             $command = "python3 ".$filepath.$submissionFile->uuid.'.py';
             $process = new Process($command);
             $process->setInput($testCase->input);
+            $process->setTimeout(5);
             $process->run();
 
             if (!$process->isSuccessful()) {
                 $error = $process->getErrorOutput();
-                array_push($errorMsg, -1);
-                array_push($errorMsg, $error);
+                $errorMsg = $this->makeErrorMessage($error);
                 return $errorMsg;
             }
 
@@ -79,13 +78,53 @@ class EvalFileController extends Controller
             {
                 $submission->isCorrect = 0;
                 $submission->save();
-                array_push($errorMsg,0);
-                array_push($errorMsg, "Correct Output:\n".$testCaseOutput);
-                array_push($errorMsg, "User Output:\n".$process->getOutput());
+                $errorMsg = '실행은 되었으나 잘못된 값이 나왔습니다.';
+                $errorMsg = $errorMsg.'올바른 값 : '.$testCaseOutput.'프래그램 실행 값 : '.$process->getOutput();
                 return $errorMsg;
             }
         }
-        return 1;
+        return '정답입니다!';
+    }
+
+
+    public function makeErrorMessage($error)
+    {
+        $errorMsg = '프로그램 실행이 안되는 오류입니다.';
+
+        preg_match( "/line [0-999]/", $error,$errorLine);
+
+        preg_match("/NameError/", $error, $errorTypeName);
+        preg_match("/ZeroDivisionError/", $error, $errorTypeZeroDiv);
+        preg_match("/SyntaxError/", $error, $errorTypeSyntax);
+        preg_match("/TypeError/", $error, $errorTypeErr);
+        preg_match("/AttributeError/", $error, $errorTypeAttrErr);
+
+
+        $errorMsg = $errorMsg.$errorLine[0].'에 오류가 있습니다.';
+
+        if($errorTypeName)
+        {
+            preg_match("/name \'(.*)\'/", $error, $errorName);
+            $errorMsg = $errorMsg.$errorName[0].'변수 선언이 제대로 됐는지 확인하세요.';
+        }
+        else if($errorTypeZeroDiv)
+        {
+            $errorMsg = $errorMsg.'0으로 수를 나눌 수 없습니다.';
+        }
+        else if($errorTypeSyntax)
+        {
+            $errorMsg = $errorMsg.'문법을 확인하세요.';
+        }
+        else if($errorTypeErr)
+        {
+            $errorMsg = $errorMsg.'숫자와 문자를 혼용하여 썼네요. 자료형을 확인해주세요.';
+        }
+        else if($errorTypeAttrErr)
+        {
+            $errorMsg = $errorMsg.'배열 속성이름, 모듈 이름이 잘못되었습니다.';
+        }
+
+        return $errorMsg;
     }
 
 }
