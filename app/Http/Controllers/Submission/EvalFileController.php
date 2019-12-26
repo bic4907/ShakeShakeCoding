@@ -20,17 +20,21 @@ class EvalFileController extends Controller
         /**
          * 제출된 파일 모델 생성
          */
-        $submissionFile = new SubmissionFile();
-        $user = Auth::user();
-        $submissionFile->uuid = Uuid::uuid4();
-        $submissionFile->user_id = $user->id;
-        $submissionFile->submission_id = $submission_num;
-        $submissionFile->question_id = $question_num;
+        $submissionFile = SubmissionFile::where('submission_id',$submission_num)->first();
+        if($submissionFile == null)
+        {
+            $submissionFile = new SubmissionFile();
+            $user = Auth::user();
+            $submissionFile->uuid = Uuid::uuid4();
+            $submissionFile->user_id = $user->id;
+            $submissionFile->submission_id = $submission_num;
+            $submissionFile->question_id = $question_num;
+        }
 
         /**
          * 전달 받은 블럭 JSON과 Input을 가지고 파이썬 파일 생성
          */
-        $filepath = '/home/vagrant/code/storage/app/'; // 파일 경로 생성
+        $filepath = '/home/vagrant/code/storage/app/file/'; // 파일 경로 생성
         FileTransformController::fileTransform(
             $submissionFile,
             $filepath ,
