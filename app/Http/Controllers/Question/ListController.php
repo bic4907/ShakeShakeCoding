@@ -16,7 +16,8 @@ class ListController extends Controller
 
         $questions = DB::table('questions')
             ->leftJoin('users', 'questions.professor_id', '=', 'users.id')
-            ->orderBy('questions.id', 'desc')->paginate(10);
+            ->orderBy('questions.id', 'desc')->distinct('questions.id')
+            ->select('users.name', 'questions.id', 'questions.title', 'questions.created_at')->paginate(10);
 
         return view('question.list', ['questions' => $questions]);
     }
