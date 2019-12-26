@@ -15,7 +15,10 @@
                 </div>
             </div>
         </nav>
-        <problem-solve-component>
+        <problem-solve-component
+            v-bind:question="{{ $question }}"
+            v-bind:submission="{{ $submission }}"
+        >
         </problem-solve-component>
     <div>
 

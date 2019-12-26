@@ -15,8 +15,8 @@ class CreateSubmissionsTable extends Migration
     {
         Schema::create('submissions', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->text('answer');
-            $table->boolean('isCorrect');
+            $table->text('answer')->nullable();
+            $table->boolean('isCorrect')->default('0');
             $table->unsignedBigInteger('question_id');
             $table->foreign('question_id')->references('id')->on('questions');
             $table->unsignedBigInteger('student_id');
