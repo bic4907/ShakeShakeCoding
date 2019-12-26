@@ -103,7 +103,6 @@ class EvalFileController extends Controller
                             $iterPos++;
                         }
 
-
                         $debugInfo = json_decode(Storage::disk('local')->get("file/" . $submissionFile->uuid . '.debug'), true);
                         $gradeResult['debug']['line'] = $debugInfo[intval($numStr)];
                         $gradeResult['debug']['message'] = $this->makeErrorMessage($error);;

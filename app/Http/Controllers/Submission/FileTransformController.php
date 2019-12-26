@@ -44,7 +44,7 @@ class FileTransformController extends Controller
 
             $contents .= $content."\n";
             $currentLine += 1; // 파일에서 한 줄 작성되었기 때문에 1증가
-
+            $debugInfo[$currentLine] = $uuid;
             if($checkFor == "for")
             {
                 for($i=0;$i<$depth; $i++)
@@ -56,7 +56,7 @@ class FileTransformController extends Controller
 
             } // for 문일때, check 후 해당 depth 에 pass 추가
 
-            $debugInfo[$currentLine] = $uuid;
+
         }
 
             //dd($contents);

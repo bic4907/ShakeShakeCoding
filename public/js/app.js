@@ -2460,6 +2460,9 @@ function resizeSolverComponent() {
 
 $(document).ready(resizeSolverComponent);
 $(window).resize(resizeSolverComponent);
+$(document).ready(function () {
+  $('#exampleModalLong').modal('show');
+});
 
 /***/ }),
 
