@@ -26,7 +26,7 @@ class ViewerController extends Controller
 
     public function getBlockList($question_num) {
 
-        $blocks = Block::where('question_id', $question_num)->select('content')->get();
+        $blocks = Block::where('question_id', $question_num)->select('content', 'type as block_type')->get();
 
         return $blocks;
     }
