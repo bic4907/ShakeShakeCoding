@@ -11,21 +11,20 @@ use Illuminate\Support\Facades\Auth;
 
 class RegisterController extends Controller
 {
-    function show($problem_num) {
-        return view('question/add', ['problem_num' => $problem_num, 'header_title'=>'문제 출제']
+    function show() {
+        return view('question/add', ['header_title'=>'문제 출제']
         );
     }
 
-    public function add($problem_num, Request $request)
+    public function add(Request $request)
     {
         $todo_code = new Question();
-        $todo_code->id = $problem_num;
         $todo_code->code = $request->text;
         $todo_code->professor_id = Auth::user()->id;
 
         $todo_code->save();
 
-        return view('question.edit', ['problem_num'=>$problem_num, 'description'=>$todo_code->code]);
+        return view('question.edit', ['problem_num'=>$todo_code->id, 'description'=>$todo_code->code, 'header_title'=>'문제 만들기']);
 //        $this->editAnswer($problem_num);
     }
 

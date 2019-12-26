@@ -29,8 +29,8 @@ Route::get('/', function () {
 
 
 Route::group(['middleware' => 'permit:Professor,Student', 'prefix' => 'question'],function(){
-    Route::get('/add/{problem_num}', 'Question\RegisterController@show')->name('question.add');
-    Route::post('/add/{problem_num}', 'Question\RegisterController@add')->name('question.add.post');
+    Route::get('/add', 'Question\RegisterController@show')->name('question.add');
+    Route::post('/add', 'Question\RegisterController@add')->name('question.add.post');
     Route::get('/edit/{problem_num}', 'Question\RegisterController@editAnswer')->name('question.edit');
     Route::post('/edit/{problem_num}', 'Question\RegisterController@addBlinkBlock')->name('question.edit.post');
 

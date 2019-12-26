@@ -47,7 +47,7 @@
             $.ajax({
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                 type: "POST",
-                url: "/question/add/{{$problem_num}}",
+                url: "/question/add",
                 data: param,
                 success: function (data) {
                 },
