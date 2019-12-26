@@ -22,6 +22,8 @@ use Illuminate\Support\Str;
 
 $factory->define(Question::class, function (Faker $faker) {
     return [
-        'code' => Str::random(10)
+        'code' => Str::random(10),
+        'title' => $faker->title,
+        'description' => $faker->text
     ];
 });
